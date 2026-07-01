@@ -131,7 +131,7 @@ The web application consists of a **React frontend** and a **Flask backend** ser
 ```bash
 cd webapp/backend
 conda activate avism_web
-# Ensure .env contains: FIREBASE_API_KEY=AIzaSy.................................
+# Ensure .env contains: FIREBASE_API_KEY=AIza............FzM
 python app.py
 ```
 The server will start on `http://localhost:5000` and load the models onto CUDA.
