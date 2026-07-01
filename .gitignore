@@ -57,3 +57,11 @@ webapp/frontend/dist/
 webapp/backend/users.db
 webapp/backend/.env
 webapp/backend/outputs/
+
+# Internal research and development notes
+changes_done.md
+experiments.mf
+future_contributions_in_pipeline.md
+master_reference.md
+research_proposals.md
+
