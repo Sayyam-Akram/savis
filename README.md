@@ -143,3 +143,4 @@ npm install
 npm run dev -- --port 3000
 ```
 Open `http://localhost:3000` in your browser. You can now register or sign in with Google or Email/Password, select sample videos, and run the segmentation inference model.
+
