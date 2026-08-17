@@ -2,7 +2,7 @@
 
 [![Paper](https://img.shields.io/badge/arXiv-Paper-red.svg)](https://arxiv.org/abs/2603.01431) <!-- Update this link with your paper URL -->
 [![Dataset](https://img.shields.io/badge/Dataset-AVISeg-blue.svg)](#-dataset-setup)
-[![Model Weights](https://img.shields.io/badge/Model_Weights-Download-green.svg)](#-pretrained-weights)
+[![Model Weights](https://img.shields.io/badge/Model_Weights-Download-green.svg)](https://drive.google.com/file/d/13DR2U54zjZwswYSYp4xg1TgsMrxrRbE4/view?usp=sharing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 SAVIS (Audio-Visual Instance Segmentation) is a state-of-the-art framework designed for segmenting and tracking sounding objects in video sequences. By leveraging joint audio-visual representations, attention-based fusion, and temporal modeling, SAVIS delivers precise instance-level segmentation masks and tracks them across video timelines.
@@ -83,7 +83,7 @@ mkdir -p datasets
 
 ### Pretrained Weights
 We use the **BEATs** audio backbone and pretrained visual backbones.
-1. Download the pretrained weights and place them in the correct directories:
+1. Download the [Model Weights](https://drive.google.com/file/d/13DR2U54zjZwswYSYp4xg1TgsMrxrRbE4/view?usp=sharing) and place them in the correct directories:
 ```bash
 mkdir -p pre_models checkpoints
 ```
