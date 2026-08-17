@@ -11,19 +11,15 @@ This repository hosts the core implementation of **SAVIS (SAVISM Research Framew
 
 ---
 
-## 📊 Performance & Ablation Study
+## 🎨 Qualitative Results
 
-A key architectural enhancement in the development of SAVIS is the transition of the audio modality feature extractor:
+Below are qualitative results of SAVIS compared against Ground Truth (GT) on key categories (Speaking and Music), showcasing the audio waveform, ground truth masks, and our predicted segmentations across time:
 
-* **VGGish (Baseline)**: Utilizes the legacy VGGish audio encoder. While VGGish is lightweight, it struggles with fine-grained temporal audio boundary alignment, resulting in a lower overall FSLA metric.
-* **BEATs (Proposed)**: Employs the BEATs (Bidirectional Encoder representations from Audio Transformers) encoder (768-dimension output) with frame-level Audio-Guided Contrastive Learning (AGCL) loss.
+### Speaking (Human) Category
+![Speaking Paper Result](docs/images/speaking_paper_result.jpg)
 
-### Ablation Study Table: VGGish vs. BEATs
-
-| Audio Encoder | FSLA | FSLAn | FSLAs | FSLAm | HOTA | mAP | DetA | AssA |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **VGGish** | 41.78 | **40.28** | 29.63 | 49.70 | 61.92 | **41.80** | 55.28 | 70.89 |
-| **BEATs** | **43.49** | 18.90 | **34.72** | **52.29** | **62.38** | 40.73 | **55.86** | **71.41** |
+### Music Category
+![Music Paper Result](docs/images/music_paper_result.jpg)
 
 ---
 
@@ -52,8 +48,6 @@ pip install -r requirements.txt
 
 ### 3. Install Detectron2 from Source
 ```bash
-export TORCH_CUDA_ARCH_LIST="8.9"
-export CUDA_HOME=/usr
 git clone https://github.com/facebookresearch/detectron2.git
 cd detectron2
 pip install -e .
@@ -62,8 +56,6 @@ cd ..
 
 ### 4. Compile Deformable Attention Operators
 ```bash
-export CUDA_HOME=/usr
-export TORCH_CUDA_ARCH_LIST="8.9"
 cd mask2former/modeling/pixel_decoder/ops
 sh make.sh
 cd ../../../../
@@ -106,18 +98,6 @@ To evaluate a trained checkpoint:
 ```bash
 python train_net.py --config-file configs/avism/R50/avism_R50_IN.yaml --eval-only MODEL.WEIGHTS checkpoints/AVISM_R50_IN.pth
 ```
-
----
-
-## 🎨 Qualitative Results
-
-Below are qualitative results demonstrating SAVIS tracking and segmenting sounding objects over time:
-
-### Example 1: Segmenting Sounding Instruments
-![Qualitative Result 1](docs/images/qualitative_result.jpg)
-
-### Example 2: Multi-Object Audio-Visual Tracking and Segmentation
-![Qualitative Result 2](docs/images/qualitative_result_2.jpg)
 
 ---
 
