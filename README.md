@@ -31,6 +31,14 @@ Below are qualitative results of SAVIS compared against Ground Truth (GT) on key
 
 </details>
 
+<details open>
+<summary><b>🎥 Demo Video</b></summary>
+<br>
+
+<video src="docs/images/r.mp4" controls width="100%"></video>
+
+</details>
+
 ---
 
 ## 🛠️ Installation
