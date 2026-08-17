@@ -232,8 +232,8 @@ class RandomCropClip(T.Augmentation):
 
             h = h0 * x + h1 * (1-x)
             w = w0 * x + w1 * (1-x)
-            h = np.round_(h).astype(int)
-            w = np.round_(w).astype(int)
+            h = np.round(h).astype(int)
+            w = np.round(w).astype(int)
 
             if self._rand_range() < 0.5:
                 h = h[::-1]

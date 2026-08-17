@@ -15,7 +15,7 @@ import cv2
 import numpy as np
 import re
 
-from torch.cuda.amp import autocast
+from torch.amp import autocast
 
 from detectron2.config import get_cfg
 from detectron2.data.detection_utils import read_image
@@ -116,11 +116,18 @@ if __name__ == "__main__":
 
     demo = VisualizationDemo(cfg)
 
-    if args.output:
-        os.makedirs(args.output, exist_ok=True)
-
     input_dir = "datasets/test/JPEGImages/"
-    output_dir = "results/avism_R50_IN/"
+    if args.output:
+        output_dir = args.output
+    else:
+        output_dir = "results/avism_R50_IN/"
+    os.makedirs(output_dir, exist_ok=True)
+
+    if cfg.MODEL.AVISM.AUDIO_DIM == 768:
+        audio_dir = "datasets/test/BEATSAudios"
+    else:
+        audio_dir = "datasets/test/FEATAudios"
+
     for video_name in os.listdir(input_dir):
         print(video_name)
         vid_frames = []
@@ -128,11 +135,11 @@ if __name__ == "__main__":
             img = read_image(os.path.join(input_dir, video_name, path), format="BGR")
             vid_frames.append(img)
 
-        audio_pth = os.path.join("datasets/test/FEATAudios", video_name + ".npy")
+        audio_pth = os.path.join(audio_dir, video_name + ".npy")
         audio_feats = np.load(audio_pth)
 
         start_time = time.time()
-        with autocast():
+        with autocast('cuda'):
             predictions, visualized_output = demo.run_on_video(vid_frames, audio_feats)
 
         os.makedirs(os.path.join(output_dir, video_name), exist_ok=True)

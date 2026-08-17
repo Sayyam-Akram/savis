@@ -193,6 +193,9 @@ class AVISM(nn.Module):
             avism_losses.append("agcl_frame")
         if agcl_instance_weight > 0.0:
             avism_losses.append("agcl_instance")
+        if cfg.MODEL.AVISM.CALIB_HEAD_ON:
+            avism_weight_dict["loss_calib"] = cfg.MODEL.AVISM.CALIB_WEIGHT
+            avism_losses.append("calib")
 
         avism_criterion = AvismSetCriterion(
             num_classes,
@@ -205,6 +208,7 @@ class AVISM(nn.Module):
             importance_sample_ratio=cfg.MODEL.MASK_FORMER.IMPORTANCE_SAMPLE_RATIO,
             sim_use_clip=cfg.MODEL.AVISM.SIM_USE_CLIP,
             agcl_temperature=cfg.MODEL.AVISM.AGCL_TEMPERATURE,
+            calib_hard_weight=cfg.MODEL.AVISM.CALIB_HARD_WEIGHT if cfg.MODEL.AVISM.CALIB_HEAD_ON else 3.0,
         )
 
         return {
@@ -300,6 +304,7 @@ class AVISM(nn.Module):
 
         avism_outputs = self.avism_module(frame_queries, audio_features)
         avism_outputs["mask_features"] = mask_features
+        avism_outputs["stage1_outputs"] = outputs
         for out in avism_outputs["aux_outputs"]:
             out["mask_features"] = mask_features
 

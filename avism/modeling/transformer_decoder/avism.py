@@ -230,6 +230,7 @@ class Avism(nn.Module):
             use_sim: bool,
             num_registers: int,
             audio_dim: int = 128,
+            calib_head_on: bool = False,
     ):
         """
         NOTE: this interface is experimental.
@@ -374,6 +375,11 @@ class Avism(nn.Module):
             if self.sim_use_clip:
                 self.sim_embed_clip = nn.Linear(hidden_dim, hidden_dim)
 
+        self.calib_head_on = calib_head_on
+        if self.calib_head_on:
+            self.calib_mlp = MLP(hidden_dim, 64, 1, 2)
+            self.gamma = nn.Parameter(torch.tensor(0.5))
+
     @classmethod
     def from_config(cls, cfg, in_channels):
         ret = {}
@@ -403,6 +409,7 @@ class Avism(nn.Module):
         ret["use_sim"] = cfg.MODEL.AVISM.SIM_WEIGHT > 0.0
         ret["num_registers"] = cfg.MODEL.AVISM.NUM_REGISTERS
         ret["audio_dim"] = cfg.MODEL.AVISM.AUDIO_DIM
+        ret["calib_head_on"] = cfg.MODEL.AVISM.CALIB_HEAD_ON
 
         return ret
 
@@ -498,23 +505,38 @@ class Avism(nn.Module):
         else:
             pred_cq_embed = [None] * self.num_layers
 
+        pred_calib_logits = None
+        if self.calib_head_on:
+            pred_calib_logits = self.calib_mlp(decoder_outputs) # [D, L, B, cQ, 1]
+            r = torch.sigmoid(pred_calib_logits)
+            pred_cls = pred_cls.clone()
+            gamma_positive = torch.abs(self.gamma)
+            pred_cls[..., self.num_classes] += gamma_positive * (1.0 - r.squeeze(-1))
+
         out = {
             'pred_logits': pred_cls[-1],
             'pred_mask_embed': pred_mask_embed[-1],
             'pred_fq_embed': pred_fq_embed,
             'pred_cq_embed': pred_cq_embed[-1],
             'aux_outputs': self._set_aux_loss(
-                pred_cls, pred_mask_embed, pred_cq_embed, pred_fq_embed
+                pred_cls, pred_mask_embed, pred_cq_embed, pred_fq_embed,
+                pred_calib_logits if self.calib_head_on else None
             )
         }
+        if self.calib_head_on:
+            out['pred_calib_logits'] = pred_calib_logits[-1]
         return out
 
     @torch.jit.unused
     def _set_aux_loss(
-            self, outputs_cls, outputs_mask_embed, outputs_cq_embed, outputs_fq_embed
+            self, outputs_cls, outputs_mask_embed, outputs_cq_embed, outputs_fq_embed, outputs_calib_logits=None
     ):
-        return [{"pred_logits": a, "pred_mask_embed": b, "pred_cq_embed": c, "pred_fq_embed": outputs_fq_embed}
-                for a, b, c in zip(outputs_cls[:-1], outputs_mask_embed[:-1], outputs_cq_embed[:-1])]
+        if outputs_calib_logits is not None:
+            return [{"pred_logits": a, "pred_mask_embed": b, "pred_cq_embed": c, "pred_fq_embed": outputs_fq_embed, "pred_calib_logits": d}
+                    for a, b, c, d in zip(outputs_cls[:-1], outputs_mask_embed[:-1], outputs_cq_embed[:-1], outputs_calib_logits[:-1])]
+        else:
+            return [{"pred_logits": a, "pred_mask_embed": b, "pred_cq_embed": c, "pred_fq_embed": outputs_fq_embed}
+                    for a, b, c in zip(outputs_cls[:-1], outputs_mask_embed[:-1], outputs_cq_embed[:-1])]
 
     def encode_frame_query(self, frame_query, attn_mask):
         """

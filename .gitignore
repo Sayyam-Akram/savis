@@ -39,7 +39,7 @@ BEATs_iter3_plus_AS2M.pt
 *.pdf
 teamviewer_amd64.deb
 checkpoints/
-datasets/
+/datasets/
 outputs/
 pre_models/
 assets/

@@ -4,7 +4,6 @@ from detectron2.config import CfgNode as CN
 
 def add_avism_config(cfg):
     cfg.SOLVER.GRADIENT_ACCUMULATION_STEPS = 1
-    cfg.SOLVER.GRADIENT_ACCUMULATION_STEPS = 1
     cfg.DATASETS.DATASET_RATIO = []
 
     # DataLoader
@@ -64,8 +63,14 @@ def add_avism_config(cfg):
     cfg.MODEL.AVISM.AGCL_TEMPERATURE = 0.07
 
     # Audio dimension (128 for VGGish, 768 for BEATs)
-    cfg.MODEL.AVISM.AUDIO_DIM = 128
+    cfg.MODEL.AVISM.AUDIO_DIM = 768
 
     cfg.MODEL.AVISM.FREEZE_DETECTOR = False
     cfg.MODEL.AVISM.TEST_RUN_CHUNK_SIZE = 18
     cfg.MODEL.AVISM.TEST_INTERPOLATE_CHUNK_SIZE = 5
+
+    # Sounding-State Calibration Head (Module A)
+    cfg.MODEL.AVISM.CALIB_HEAD_ON = False
+    cfg.MODEL.AVISM.CALIB_WEIGHT = 1.0
+    cfg.MODEL.AVISM.CALIB_HARD_WEIGHT = 3.0
+

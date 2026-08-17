@@ -11,6 +11,7 @@ from detectron2.layers import Conv2d
 
 from .position_encoding import PositionEmbeddingSine
 from mask2former.modeling.transformer_decoder.maskformer_transformer_decoder import TRANSFORMER_DECODER_REGISTRY
+from .cbam import CBAM2D
 
 
 
@@ -256,6 +257,14 @@ class AVISMMultiScaleMaskedTransformerDecoder(nn.Module):
     def _load_from_state_dict(
         self, state_dict, prefix, local_metadata, strict, missing_keys, unexpected_keys, error_msgs
     ):
+        for k in list(state_dict.keys()):
+            if k.startswith(prefix):
+                suffix = k[len(prefix):]
+                if "calib_gamma" in suffix:
+                    new_key = k.replace("calib_gamma", "gamma")
+                    state_dict[new_key] = state_dict[k]
+                    del state_dict[k]
+
         version = local_metadata.get("version", None)
         if version is None or version < 2:
             # Do not warn if train from scratch
@@ -295,6 +304,7 @@ class AVISMMultiScaleMaskedTransformerDecoder(nn.Module):
         use_ccaf: bool = False,
         num_frames: int = 5,
         audio_dim: int = 128,
+        calib_head_on: bool = True,
     ):
         """
         NOTE: this interface is experimental.
@@ -329,6 +339,9 @@ class AVISMMultiScaleMaskedTransformerDecoder(nn.Module):
             self.av_sf.append(
                 CrossAttentionLayer(d_model=hidden_dim, nhead=nheads, dropout=0.0, normalize_before=pre_norm))
         self.av_post_proj = nn.Linear(hidden_dim * 3, hidden_dim)
+
+        self.cbams = nn.ModuleList([CBAM2D(hidden_dim) for _ in range(3)])
+        self.cbam_alphas = nn.Parameter(torch.zeros(3))
 
 
 
@@ -406,6 +419,13 @@ class AVISMMultiScaleMaskedTransformerDecoder(nn.Module):
 
         self.avism_last_layer_num = avism_last_layer_num
 
+        self.calib_head_on = calib_head_on
+        self.num_classes = num_classes
+        if self.calib_head_on:
+            self.calib_mlp = MLP(hidden_dim, 64, 1, 2)
+            self.gamma = nn.Parameter(torch.tensor(0.5))
+
+
     @classmethod
     def from_config(cls, cfg, in_channels, mask_classification):
         ret = {}
@@ -434,6 +454,7 @@ class AVISMMultiScaleMaskedTransformerDecoder(nn.Module):
         ret["use_ccaf"] = cfg.MODEL.AVISM.USE_CCAF
         ret["num_frames"] = cfg.INPUT.SAMPLING_FRAME_NUM
         ret["audio_dim"] = cfg.MODEL.AVISM.AUDIO_DIM
+        ret["calib_head_on"] = cfg.MODEL.AVISM.CALIB_HEAD_ON
 
         return ret
 
@@ -452,6 +473,10 @@ class AVISMMultiScaleMaskedTransformerDecoder(nn.Module):
         for i in range(self.num_feature_levels):
             size_list.append(x[i].shape[-2:])
             src_i = self.input_proj[i](x[i])
+
+            # Zero-Initialized CBAM Residual
+            src_i = src_i + self.cbam_alphas[i] * self.cbams[i](src_i)
+
             pos_i = self.pe_layer(x[i], None).flatten(2).permute(2, 0, 1)
             src_i_flat = src_i.flatten(2) + self.level_embed.weight[i][None, :, None]
             pos.append(pos_i)
@@ -466,6 +491,7 @@ class AVISMMultiScaleMaskedTransformerDecoder(nn.Module):
         frame_queries = []
         predictions_class = []
         predictions_mask = []
+        predictions_calib_logits = []
 
         if self.use_ccaf:
             # CCAF: visual features attend to temporal audio history
@@ -506,9 +532,10 @@ class AVISMMultiScaleMaskedTransformerDecoder(nn.Module):
             output = output + audio_feats_ml
 
         # prediction heads on learnable query features
-        outputs_class, outputs_mask, attn_mask, frame_query = self.forward_prediction_heads(output, mask_features, attn_mask_target_size=size_list[0])
+        outputs_class, outputs_mask, attn_mask, frame_query, calib_logits = self.forward_prediction_heads(output, mask_features, attn_mask_target_size=size_list[0])
         predictions_class.append(outputs_class)
         predictions_mask.append(outputs_mask)
+        predictions_calib_logits.append(calib_logits)
 
         for i in range(self.num_layers):
             level_index = i % self.num_feature_levels
@@ -532,10 +559,11 @@ class AVISMMultiScaleMaskedTransformerDecoder(nn.Module):
                 output
             )
 
-            outputs_class, outputs_mask, attn_mask, frame_query = self.forward_prediction_heads(output, mask_features, attn_mask_target_size=size_list[(i + 1) % self.num_feature_levels])
+            outputs_class, outputs_mask, attn_mask, frame_query, calib_logits = self.forward_prediction_heads(output, mask_features, attn_mask_target_size=size_list[(i + 1) % self.num_feature_levels])
             frame_queries.append(frame_query)
             predictions_class.append(outputs_class)
             predictions_mask.append(outputs_mask)
+            predictions_calib_logits.append(calib_logits)
 
         assert len(predictions_class) == self.num_layers + 1
 
@@ -543,9 +571,13 @@ class AVISMMultiScaleMaskedTransformerDecoder(nn.Module):
             'pred_logits': predictions_class[-1],
             'pred_masks': predictions_mask[-1],
             'aux_outputs': self._set_aux_loss(
-                predictions_class if self.mask_classification else None, predictions_mask
+                predictions_class if self.mask_classification else None, predictions_mask,
+                predictions_calib_logits if self.calib_head_on else None
             )
         }
+        if self.calib_head_on:
+            out['pred_calib_logits'] = predictions_calib_logits[-1]
+
 
         num_layer         = self.avism_last_layer_num if self.training else 1
         frame_queries     = torch.stack(frame_queries[-num_layer:]) # L x BT x fQ x 256
@@ -559,6 +591,14 @@ class AVISMMultiScaleMaskedTransformerDecoder(nn.Module):
         mask_embed = self.mask_embed(decoder_output)
         outputs_mask = torch.einsum("bqc,bchw->bqhw", mask_embed, mask_features)
 
+        calib_logits = None
+        if self.calib_head_on:
+            calib_logits = self.calib_mlp(decoder_output) # [BT, fQ, 1]
+            r = torch.sigmoid(calib_logits)
+            outputs_class = outputs_class.clone()
+            gamma_positive = torch.abs(self.gamma)
+            outputs_class[..., self.num_classes] += gamma_positive * (1.0 - r.squeeze(-1))
+
         # NOTE: prediction is of higher-resolution
         # [B, Q, H, W] -> [B, Q, H*W] -> [B, h, Q, H*W] -> [B*h, Q, HW]
         attn_mask = F.interpolate(outputs_mask, size=attn_mask_target_size, mode="bilinear", align_corners=False)
@@ -567,17 +607,24 @@ class AVISMMultiScaleMaskedTransformerDecoder(nn.Module):
         attn_mask = (attn_mask.sigmoid().flatten(2).unsqueeze(1).repeat(1, self.num_heads, 1, 1).flatten(0, 1) < 0.5).bool()
         attn_mask = attn_mask.detach()
 
-        return outputs_class, outputs_mask, attn_mask, decoder_output
+        return outputs_class, outputs_mask, attn_mask, decoder_output, calib_logits
 
     @torch.jit.unused
-    def _set_aux_loss(self, outputs_class, outputs_seg_masks):
+    def _set_aux_loss(self, outputs_class, outputs_seg_masks, outputs_calib_logits=None):
         # this is a workaround to make torchscript happy, as torchscript
         # doesn't support dictionary with non-homogeneous values, such
         # as a dict having both a Tensor and a list.
         if self.mask_classification:
-            return [
-                {"pred_logits": a, "pred_masks": b}
-                for a, b in zip(outputs_class[:-1], outputs_seg_masks[:-1])
-            ]
+            if outputs_calib_logits is not None:
+                return [
+                    {"pred_logits": a, "pred_masks": b, "pred_calib_logits": c}
+                    for a, b, c in zip(outputs_class[:-1], outputs_seg_masks[:-1], outputs_calib_logits[:-1])
+                ]
+            else:
+                return [
+                    {"pred_logits": a, "pred_masks": b}
+                    for a, b in zip(outputs_class[:-1], outputs_seg_masks[:-1])
+                ]
         else:
             return [{"pred_masks": b} for b in outputs_seg_masks[:-1]]
+

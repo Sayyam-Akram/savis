@@ -182,7 +182,10 @@ class Trainer(DefaultTrainer):
     def __init__(self, cfg):
         super().__init__(cfg)
         self.gradient_accumulation_steps = cfg.SOLVER.GRADIENT_ACCUMULATION_STEPS
-        self.grad_scaler = torch.cuda.amp.GradScaler(enabled=cfg.SOLVER.AMP.ENABLED)
+        if hasattr(torch.amp, "GradScaler"):
+            self.grad_scaler = torch.amp.GradScaler('cuda', enabled=cfg.SOLVER.AMP.ENABLED)
+        else:
+            self.grad_scaler = torch.cuda.amp.GradScaler(enabled=cfg.SOLVER.AMP.ENABLED)
         
     def run_step(self):
         """

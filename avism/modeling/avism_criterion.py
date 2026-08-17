@@ -89,7 +89,7 @@ class AvismSetCriterion(nn.Module):
 
     def __init__(self, num_classes, matcher, weight_dict, eos_coef, losses,
                  num_points, oversample_ratio, importance_sample_ratio, sim_use_clip,
-                 agcl_temperature=0.07):
+                 agcl_temperature=0.07, calib_hard_weight=3.0):
         """Create the criterion.
         Parameters:
             num_classes: number of object categories, omitting the special no-object category
@@ -118,6 +118,8 @@ class AvismSetCriterion(nn.Module):
         self.agcl_temperature = agcl_temperature
         hidden_dim = 256  # Must match HIDDEN_DIM
         self.audio_anchor_proj = nn.Linear(hidden_dim, hidden_dim)
+
+        self.calib_hard_weight = calib_hard_weight
 
     def loss_frame_contrastive(self, outputs, clip_targets, frame_targets,
                                 clip_indices, frame_indices, num_masks):
@@ -405,6 +407,85 @@ class AvismSetCriterion(nn.Module):
         tgt_idx = torch.cat([tgt for (_, tgt) in indices])
         return batch_idx, tgt_idx
 
+    def loss_calibration(self, outputs, clip_targets, frame_targets, clip_indices, frame_indices, num_masks):
+        device = next(iter(outputs.values())).device if isinstance(outputs, dict) else next(iter(outputs)).device
+        loss_calib = None
+
+        # --- Stage 1 Frame-level Calibration Loss ---
+        stage1_outputs = outputs.get("stage1_outputs") if isinstance(outputs, dict) else None
+        if stage1_outputs is not None and "pred_calib_logits" in stage1_outputs:
+            r_final = stage1_outputs["pred_calib_logits"] # [BT, fQ, 1]
+            BT, fQ, _ = r_final.shape
+            device = r_final.device
+
+            if frame_indices is not None:
+                y = torch.zeros((BT, fQ), dtype=torch.float32, device=device)
+                flat_frame_indices = frame_indices[-1] if isinstance(frame_indices[0], list) else frame_indices
+                for i in range(BT):
+                    if i < len(flat_frame_indices):
+                        matched_src, _ = flat_frame_indices[i]
+                        if len(matched_src) > 0:
+                            y[i, matched_src] = 1.0
+
+                r_final_sq = r_final.squeeze(-1)
+                pos_weight = torch.tensor([15.0]).to(device)
+                loss_calib = F.binary_cross_entropy_with_logits(
+                    r_final_sq, y, pos_weight=pos_weight.expand_as(y), reduction="mean"
+                )
+
+                if "aux_outputs" in stage1_outputs:
+                    for aux_out in stage1_outputs["aux_outputs"]:
+                        if "pred_calib_logits" in aux_out:
+                            r_aux = aux_out["pred_calib_logits"].squeeze(-1)
+                            loss_calib += F.binary_cross_entropy_with_logits(
+                                r_aux, y, pos_weight=pos_weight.expand_as(y), reduction="mean"
+                            )
+
+        # --- Stage 2 Clip-level Calibration Loss ---
+        if isinstance(outputs, dict) and "pred_calib_logits" in outputs:
+            r_final_stage2 = outputs["pred_calib_logits"] # [L, B, cQ, 1]
+            L, B, cQ, _ = r_final_stage2.shape
+            device = r_final_stage2.device
+
+            r_final_stage2 = r_final_stage2.reshape(L * B, cQ, 1)
+
+            y_stage2 = torch.zeros((B, cQ), dtype=torch.float32, device=device)
+            if clip_indices is not None:
+                for b in range(B):
+                    if b < len(clip_indices):
+                        matched_src, _ = clip_indices[b]
+                        if len(matched_src) > 0:
+                            y_stage2[b, matched_src] = 1.0
+
+            # Duplicate y_stage2 L times to match L * B batch size
+            y_stage2 = y_stage2.unsqueeze(0).repeat(L, 1, 1).reshape(L * B, cQ)
+
+            r_final_sq_stage2 = r_final_stage2.squeeze(-1)
+            pos_weight = torch.tensor([15.0]).to(device)
+            loss_calib_stage2 = F.binary_cross_entropy_with_logits(
+                r_final_sq_stage2, y_stage2, pos_weight=pos_weight.expand_as(y_stage2), reduction="mean"
+            )
+
+            if "aux_outputs" in outputs:
+                for aux_out in outputs["aux_outputs"]:
+                    if "pred_calib_logits" in aux_out:
+                        r_aux = aux_out["pred_calib_logits"] # [L, B, cQ, 1]
+                        r_aux = r_aux.reshape(L * B, cQ, 1).squeeze(-1)
+                        loss_calib_stage2 += F.binary_cross_entropy_with_logits(
+                            r_aux, y_stage2, pos_weight=pos_weight.expand_as(y_stage2), reduction="mean"
+                        )
+            
+            if loss_calib is None:
+                loss_calib = loss_calib_stage2
+            else:
+                loss_calib += loss_calib_stage2
+
+        if loss_calib is None:
+            return {"loss_calib": torch.tensor(0.0, device=device)}
+
+        return {"loss_calib": loss_calib}
+
+
     def get_loss(
         self, loss, outputs, clip_targets, frame_targets, clip_indices, frame_indices, num_masks
     ):
@@ -414,9 +495,10 @@ class AvismSetCriterion(nn.Module):
             'fg_sim': self.loss_fg_sim,
             'agcl_frame': self.loss_frame_contrastive,
             'agcl_instance': self.loss_instance_contrastive,
+            'calib': self.loss_calibration,
         }
         assert loss in loss_map, f"do you really want to compute {loss} loss?"
-        if loss in ('fg_sim', 'agcl_frame', 'agcl_instance'):
+        if loss in ('fg_sim', 'agcl_frame', 'agcl_instance', 'calib'):
             return loss_map[loss](
                 outputs, clip_targets, frame_targets, clip_indices, frame_indices, num_masks
             )
@@ -457,8 +539,8 @@ class AvismSetCriterion(nn.Module):
             for i, aux_outputs in enumerate(outputs["aux_outputs"]):
                 clip_indices = self.matcher(aux_outputs, clip_targets)
                 for loss in self.losses:
-                    # fg_sim, agcl_frame, agcl_instance only computed on the final layer
-                    if loss in ("fg_sim", "agcl_frame", "agcl_instance"):
+                    # fg_sim, agcl_frame, agcl_instance, calib only computed on the final layer
+                    if loss in ("fg_sim", "agcl_frame", "agcl_instance", "calib"):
                         continue
                     l_dict = self.get_loss(
                         loss, aux_outputs, clip_targets, frame_targets, clip_indices, frame_indices, num_masks

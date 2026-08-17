@@ -31,7 +31,7 @@ SOLVER:
   IMS_PER_BATCH: 1                  # 1 sample per step to prevent CUDA OOM during first stage decoder
   GRADIENT_ACCUMULATION_STEPS: 2    # Accumulate over 2 steps to maintain effective batch size of 2
   BASE_LR: 0.0001                   # 1e-4 as per paper
-  STEPS: (32000, )                  # LR drops by 0.1x at 32k iterations (paper spec)
+  STEPS: (32000, 40000)              # LR drops by 0.1x at 32k and 40k iterations
   MAX_ITER: 48000                   # 48k total iterations (paper spec)
   CHECKPOINT_PERIOD: 5000
   WARMUP_FACTOR: 1.0
@@ -45,7 +45,7 @@ SOLVER:
     CLIP_VALUE: 0.01
     NORM_TYPE: 2.0
   AMP:
-    ENABLED: True                   # CHANGED: True saves ~30% VRAM on RTX 4080 (was False)
+    ENABLED: False                   # DISABLED to match baseline math and prevent accuracy gap
 INPUT:
   MIN_SIZE_TRAIN_SAMPLING: "choice_by_clip"
   RANDOM_FLIP: "flip_by_clip"
@@ -61,4 +61,5 @@ TEST:
 DATALOADER:
   FILTER_EMPTY_ANNOTATIONS: False
   NUM_WORKERS: 4
+SEED: 3407
 VERSION: 2

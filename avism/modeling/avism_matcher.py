@@ -5,7 +5,7 @@ import torch
 import torch.nn.functional as F
 from scipy.optimize import linear_sum_assignment
 from torch import nn
-from torch.cuda.amp import autocast
+from torch.amp import autocast
 
 from detectron2.projects.point_rend.point_features import point_sample
 
@@ -142,7 +142,7 @@ class AvismHungarianMatcher(nn.Module):
                 align_corners=False,
             ).flatten(1)
 
-            with autocast(enabled=False):
+            with autocast('cuda', enabled=False):
                 b_out_mask = b_out_mask.float()
                 tgt_mask = tgt_mask.float()
                 # Compute the focal loss between masks

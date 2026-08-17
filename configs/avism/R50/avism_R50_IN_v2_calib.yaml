@@ -1,0 +1,5 @@
+_BASE_: avism_R50_IN.yaml
+MODEL:
+  AVISM:
+    CALIB_HEAD_ON: True
+OUTPUT_DIR: "./outputs/avism_R50_IN_v2_calib"
