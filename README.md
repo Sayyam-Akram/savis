@@ -1,7 +1,7 @@
 # SAVIS: Audio-Visual Instance Segmentation
 
 [![Paper](https://img.shields.io/badge/arXiv-Paper-red.svg)](https://arxiv.org/abs/2603.01431) <!-- Update this link with your paper URL -->
-[![Dataset](https://img.shields.io/badge/Dataset-AVISeg-blue.svg)](#-dataset-setup)
+[![Dataset](https://img.shields.io/badge/Dataset-AVISeg-blue.svg)](https://onedrive.live.com/?id=%2Fpersonal%2F3c9af704fb61931d%2FDocuments&viewid=75c49926%2D2803%2D4280%2D994e%2Da8047deca96b&listurl=%2Fpersonal%2F3c9af704fb61931d%2FDocuments&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3UvYy8zYzlhZjcwNGZiNjE5MzFkL0VURERsaVE4elpGR21ZeGxMVlB5aTNzQmlzX2ZkalgwdzhtSmh5UW5ZVlNkWEE%5FZT1XdDdwVWI&ga=1)
 [![Model Weights](https://img.shields.io/badge/Model_Weights-Download-green.svg)](https://drive.google.com/file/d/13DR2U54zjZwswYSYp4xg1TgsMrxrRbE4/view?usp=sharing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -74,7 +74,7 @@ cd ../../../../
 ## 💾 Dataset & Model Weights
 
 ### Dataset Setup
-1. Download the **AVISeg** dataset.
+1. Download the [AVISeg Dataset](https://onedrive.live.com/?id=%2Fpersonal%2F3c9af704fb61931d%2FDocuments&viewid=75c49926%2D2803%2D4280%2D994e%2Da8047deca96b&listurl=%2Fpersonal%2F3c9af704fb61931d%2FDocuments&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3UvYy8zYzlhZjcwNGZiNjE5MzFkL0VURERsaVE4elpGR21ZeGxMVlB5aTNzQmlzX2ZkalgwdzhtSmh5UW5ZVlNkWEE%5FZT1XdDdwVWI&ga=1).
 2. Extract the dataset files to the `datasets/` folder:
 ```bash
 mkdir -p datasets
@@ -83,7 +83,7 @@ mkdir -p datasets
 
 ### Pretrained Weights
 We use the **BEATs** audio backbone and pretrained visual backbones.
-1. Download the [Model Weights](https://drive.google.com/file/d/13DR2U54zjZwswYSYp4xg1TgsMrxrRbE4/view?usp=sharing) and place them in the correct directories:
+1. Download the [Model Weights](https://drive.google.com/file/d/13DR2U54zjZwswYSYp4xg1TgsMrxrRbE4/view?usp=sharing) and the pretrained backbones/BEATs weight files from [OneDrive](https://onedrive.live.com/?id=%2Fpersonal%2F3c9af704fb61931d%2FDocuments&viewid=75c49926%2D2803%2D4280%2D994e%2Da8047deca96b&listurl=%2Fpersonal%2F3c9af704fb61931d%2FDocuments&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3UvYy8zYzlhZjcwNGZiNjE5MzFkL0VURERsaVE4elpGR21ZeGxMVlB5aTNzQmlzX2ZkalgwdzhtSmh5UW5ZVlNkWEE%5FZT1XdDdwVWI&ga=1). Place them in the correct directories:
 ```bash
 mkdir -p pre_models checkpoints
 ```
@@ -106,3 +106,21 @@ To evaluate a trained checkpoint:
 ```bash
 python train_net.py --config-file configs/avism/R50/avism_R50_IN.yaml --eval-only MODEL.WEIGHTS checkpoints/AVISM_R50_IN.pth
 ```
+
+---
+
+## 🎨 Qualitative Results
+
+Below are qualitative results demonstrating SAVIS tracking and segmenting sounding objects over time:
+
+### Example 1: Segmenting Sounding Instruments
+![Qualitative Result 1](docs/images/qualitative_result.jpg)
+
+### Example 2: Multi-Object Audio-Visual Tracking and Segmentation
+![Qualitative Result 2](docs/images/qualitative_result_2.jpg)
+
+---
+
+## 🤝 Acknowledgement
+
+We thank the great work from Detectron2, Mask2Former and VITA. We also highly appreciate the great work from the authors of AVISM (AVIS baseline) on which our framework is built.
