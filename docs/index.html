@@ -19,7 +19,7 @@
   <!-- Google Fonts & KaTeX for LaTeX Math -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;850&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
@@ -30,7 +30,7 @@
 </head>
 <body>
 
-  <!-- Top Sticky Navigation -->
+  <!-- Top Sticky Navigation Bar -->
   <header class="top-nav">
     <div class="nav-container">
       <a href="#hero" class="nav-brand">
@@ -43,8 +43,6 @@
           <li><a href="#method">Architecture</a></li>
           <li><a href="#results">Benchmark</a></li>
           <li><a href="#qualitative">Qualitative</a></li>
-          <li><a href="#demo">Demo</a></li>
-          <li><a href="#analysis">Findings</a></li>
           <li><a href="#reproducibility">Code</a></li>
           <li><a href="#citation">Citation</a></li>
         </ul>
@@ -122,7 +120,7 @@
     </div>
   </section>
 
-  <!-- Research Teaser -->
+  <!-- Research Teaser Section -->
   <section id="teaser">
     <div class="container-wide">
       <div class="teaser-card">
@@ -147,7 +145,7 @@
       <div class="abstract-box">
         <div class="abstract-text">
           <p>
-            Audio-Visual Instance Segmentation (<strong>AVIS</strong>) requires a deep learning model to find, segment, and track every object instance that is <em>actively emitting sound</em> throughout an untrimmed video sequence. On the standard AVISeg benchmark, the silent-frame sub-metric <strong>FSLAn</strong>—the fraction of genuinely silent frames a model leaves correctly unmasked—remains the weakest score across all published methods, with recent extensions trading it away in exchange for raw detection metrics.
+            Audio-Visual Instance Segmentation (<strong>AVIS</strong>) requires a deep learning model to find, segment, and track every object instance that is <em>actively producing sound</em> throughout an untrimmed video sequence. On the standard AVISeg benchmark, the silent-frame sub-metric <strong>FSLAn</strong>—the fraction of genuinely silent frames a model leaves correctly unmasked—remains the weakest score across all published methods, with recent extensions trading it away in exchange for raw detection metrics.
           </p>
           <p>
             We first measure four foundational properties of AVISeg and of a trained baseline's internals: establishing that residual audio does not linger across sound-to-silence boundaries, that same-category confusion is predominantly a multi-speaker rather than an instrument-ensemble phenomenon, and that sounding versus silent signals are separable at the model's downstream classification embeddings (Cohen's \(d = 0.555\)) rather than within raw attention weights.
@@ -188,25 +186,25 @@
     </div>
   </section>
 
-  <!-- Method & Architecture Section -->
+  <!-- Redesigned Method & Architecture Section (Fixed Full-Width Non-Scrollable Figure) -->
   <section id="method">
     <div class="container-wide">
       <div class="section-header">
-        <span class="section-tag">Pipeline</span>
-        <h2 class="section-title">Method & Architecture</h2>
+        <span class="section-tag">Architecture</span>
+        <h2 class="section-title">Method & Model Architecture</h2>
         <p class="section-subtitle">A two-stage set-prediction framework augmented with multi-scale visual refinement, causal cross-attention, and sink-augmented video fusion.</p>
       </div>
 
-      <!-- Architecture Viewer with Zoom -->
-      <div class="architecture-viewer">
-        <div class="figure-wrapper">
-          <img src="images/architecture.png" alt="SAVIS Complete Model Architecture Diagram" class="zoomable-img">
-          <div class="figure-zoom-hint">
+      <!-- Architecture Figure Container -->
+      <div class="arch-card">
+        <div class="arch-figure-box">
+          <img src="images/architecture.png" alt="SAVIS Complete Model Architecture Diagram" class="arch-figure-img zoomable-img">
+          <div class="arch-zoom-badge">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-            Click to expand high-res figure
+            Click to Expand Fullscreen
           </div>
         </div>
-        <div class="figure-caption">
+        <div class="arch-caption-box">
           <strong>Figure 2: Complete SAVIS System Architecture.</strong> 
           <strong>(a) Frame-Level Stage:</strong> ResNet-50 visual backbone and a pixel decoder encode each frame into multi-scale visual features \(\{f^{V,\ell}_t\}_{\ell=1}^3\), refined via CBAM. Causal Cross-Attention Fusion (CCAF) fuses the visual features with the frozen audio embeddings (\(a_t\)) to condition \(N_f = 100\) frame queries, which a transformer decoder decodes into frame-level candidate masks and classes.
           <strong>(b) Video-Level Stage:</strong> An object encoder aggregates frame queries into \(N_v = 100\) object tokens. Our <em>Sink-Augmented VL-AVFM</em> (green) associates tokens across temporal windows using \(R = 4\) always-reachable registry tokens appended to key/value streams. Finally, an object decoder emits the spatiotemporal masks \(\hat{m}\) and instance classification logits \(\hat{c}\).
@@ -214,48 +212,51 @@
       </div>
 
       <!-- Technical Breakdown Cards -->
-      <div class="architecture-details">
+      <div class="arch-components-grid">
         
-        <div class="arch-detail-card">
-          <h3>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-            1. Multi-Scale CBAM Refinement
-          </h3>
-          <p>
-            To address the dramatic instance area variance (spanning 4.6k px for flutes up to >110k px for humans), we refine pixel decoder multi-scale features with channel and spatial attention under a zero-initialized residual gate:
-          </p>
-          <div class="math-formula">
+        <div class="arch-comp-card">
+          <div>
+            <div class="arch-comp-header">
+              <span class="arch-comp-badge">Module 1</span>
+              <h3 class="arch-comp-title">Multi-Scale CBAM Refinement</h3>
+            </div>
+            <p class="arch-comp-body">
+              To address the dramatic instance area variance (spanning 4.6k px for flutes up to >110k px for humans), we refine pixel decoder multi-scale features with channel and spatial attention under a zero-initialized residual gate:
+            </p>
+          </div>
+          <div class="math-eq-box">
             $$\tilde{f}^{V,\ell}_t = f^{V,\ell}_t + \alpha_\ell \cdot \mathrm{CBAM}(f^{V,\ell}_t), \quad \alpha_\ell \leftarrow 0$$
           </div>
-          <p>This allows visual features to adaptively emphasize sounding spatial regions without destabilizing pretrained initializations.</p>
         </div>
 
-        <div class="arch-detail-card">
-          <h3>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-            2. Causal Cross-Attention (CCAF)
-          </h3>
-          <p>
-            Rather than isolated single-frame fusion, visual features at time \(t\) cross-attend over the causal audio history up to frame \(t\) under a strict temporal mask \(M\):
-          </p>
-          <div class="math-formula">
+        <div class="arch-comp-card">
+          <div>
+            <div class="arch-comp-header">
+              <span class="arch-comp-badge">Module 2</span>
+              <h3 class="arch-comp-title">Causal Cross-Attention (CCAF)</h3>
+            </div>
+            <p class="arch-comp-body">
+              Rather than isolated single-frame fusion, visual features at time \(t\) cross-attend over the causal audio history up to frame \(t\) under a strict temporal causal mask \(M\):
+            </p>
+          </div>
+          <div class="math-eq-box">
             $$\mathrm{Attn}(Q,K,V) = \mathrm{softmax}\left(\frac{QK^\top}{\sqrt{d_k}} + M\right)V$$
           </div>
-          <p>This conditions query representations on acoustic context and onset dynamics across video timelines.</p>
         </div>
 
-        <div class="arch-detail-card">
-          <h3>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            3. Attention-Sink Registry Tokens
-          </h3>
-          <p>
-            AVISM partitions temporal self-attention into fixed and shifted windows. We append \(R = 4\) learnable registry tokens to the key/value inputs of <em>both</em> passes:
-          </p>
-          <div class="math-formula">
+        <div class="arch-comp-card">
+          <div>
+            <div class="arch-comp-header">
+              <span class="arch-comp-badge">Module 3</span>
+              <h3 class="arch-comp-title">Attention-Sink Registry Tokens</h3>
+            </div>
+            <p class="arch-comp-body">
+              AVISM partitions temporal self-attention into fixed and shifted windows. We append \(R = 4\) learnable registry tokens to the key/value inputs of <em>both</em> passes:
+            </p>
+          </div>
+          <div class="math-eq-box">
             $$K_{\text{sink}} = [K \,\|\, r_1,\dots,r_R], \quad V_{\text{sink}} = [V \,\|\, r_1,\dots,r_R]$$
           </div>
-          <p>These provide permanent global anchors across shifted partitions and absorb surplus attention mass during silent frames.</p>
         </div>
 
       </div>
@@ -263,7 +264,7 @@
     </div>
   </section>
 
-  <!-- Quantitative Results Section -->
+  <!-- Redesigned Quantitative Benchmark Results (Conference-Paper Quality Tables) -->
   <section id="results">
     <div class="container-wide">
       <div class="section-header">
@@ -272,15 +273,15 @@
         <p class="section-subtitle">Rigorous evaluation on the AVISeg test benchmark under the standardized ResNet-50 ImageNet-only training protocol.</p>
       </div>
 
-      <!-- Main Benchmark Table -->
-      <div class="table-container">
-        <div class="table-header-bar">
-          <span class="table-header-title">Table 1: Main Comparison on AVISeg Test Set (ResNet-50 backbone, ImageNet-only protocol)</span>
-          <span class="table-header-note">All metrics are higher-is-better (&uarr;). Best performance per column in <strong>bold</strong>.</span>
+      <!-- Main Benchmark Table 1 -->
+      <div class="paper-table-wrapper">
+        <div class="paper-table-header">
+          <span class="paper-table-title">Table 1: Main Comparison on AVISeg Test Set (ResNet-50 backbone, ImageNet pre-training)</span>
+          <span class="paper-table-note">All metrics are higher-is-better (&uarr;). Best performance per column in <strong>bold</strong>.</span>
         </div>
         
-        <div class="table-responsive">
-          <table class="academic-table">
+        <div class="table-compact-container">
+          <table class="paper-table">
             <thead>
               <tr>
                 <th class="text-left">Task</th>
@@ -298,7 +299,7 @@
             </thead>
             <tbody>
               <tr>
-                <td rowspan="2" class="text-left"><span class="metric-tag">VIS</span></td>
+                <td rowspan="2" class="text-left"><span class="table-tag">VIS</span></td>
                 <td class="text-left">Mask2Former-VIS (CVPR'22)</td>
                 <td><span style="color:#94a3b8;">&cross;</span></td>
                 <td>29.75</td>
@@ -324,7 +325,7 @@
               </tr>
               
               <tr class="group-divider">
-                <td rowspan="2" class="text-left"><span class="metric-tag">AVSS</span></td>
+                <td rowspan="2" class="text-left"><span class="table-tag">AVSS</span></td>
                 <td class="text-left">AVSegFormer (AAAI'24)</td>
                 <td><span style="color:#10b981;">&#10003;</span></td>
                 <td>35.66</td>
@@ -350,7 +351,7 @@
               </tr>
 
               <tr class="group-divider">
-                <td rowspan="3" class="text-left"><span class="metric-tag" style="background:#dbeafe; color:#1e40af;">AVIS</span></td>
+                <td rowspan="3" class="text-left"><span class="table-tag" style="background:#dbeafe; color:#1e40af;">AVIS</span></td>
                 <td class="text-left">AVISM Baseline (CVPR'25)</td>
                 <td><span style="color:#10b981;">&#10003;</span></td>
                 <td>42.78</td>
@@ -389,17 +390,21 @@
             </tbody>
           </table>
         </div>
+        <div class="table-legend-box">
+          <strong>Key Metric Definitions:</strong> <code>FSLA</code>: Frame-Level Sound Localization Accuracy (average across \(\alpha \in [0.05, 0.95]\)). <code>FSLAn</code> / <code>FSLAs</code> / <code>FSLAm</code>: Silent (no-sound), single-source, and multi-source components. <code>HOTA</code> / <code>AssA</code> / <code>DetA</code>: Higher Order Tracking Accuracy, Association Accuracy, and Detection Accuracy. <code>mAP</code>: Video mean Average Precision over spatio-temporal IoU trajectories.
+        </div>
       </div>
 
-      <!-- Ablation Studies Side by Side -->
-      <div class="ablation-grid">
+      <!-- Ablation Studies Side by Side (Tables 2a & 2b) -->
+      <div class="ablation-dual-grid">
         
-        <div class="table-container">
-          <div class="table-header-bar">
-            <span class="table-header-title">Table 2a: Visual Refinement Block Ablation</span>
+        <!-- Table 2a -->
+        <div class="paper-table-wrapper" style="margin-bottom: 0;">
+          <div class="paper-table-header">
+            <span class="paper-table-title">Table 2a: Visual Refinement Block Ablation</span>
           </div>
-          <div class="table-responsive">
-            <table class="academic-table">
+          <div class="table-compact-container">
+            <table class="paper-table">
               <thead>
                 <tr>
                   <th class="text-left">Block</th>
@@ -435,12 +440,13 @@
           </div>
         </div>
 
-        <div class="table-container">
-          <div class="table-header-bar">
-            <span class="table-header-title">Table 2b: Fusion & AGCL Contrastive Ablation</span>
+        <!-- Table 2b -->
+        <div class="paper-table-wrapper" style="margin-bottom: 0;">
+          <div class="paper-table-header">
+            <span class="paper-table-title">Table 2b: Fusion & Contrastive Ablation</span>
           </div>
-          <div class="table-responsive">
-            <table class="academic-table">
+          <div class="table-compact-container">
+            <table class="paper-table">
               <thead>
                 <tr>
                   <th class="text-left">Fusion</th>
@@ -478,129 +484,147 @@
     </div>
   </section>
 
-  <!-- Qualitative Results Showcase -->
+  <!-- Wide, Immersive Qualitative Results Section -->
   <section id="qualitative">
-    <div class="container-wide">
+    <div class="container-ultrawide">
       <div class="section-header">
         <span class="section-tag">Visual Verification</span>
-        <h2 class="section-title">Qualitative Results</h2>
+        <h2 class="section-title">Qualitative Results Showcase</h2>
         <p class="section-subtitle">Evaluating temporal tracking, mask fidelity, and sound-source discrimination across major sound families.</p>
       </div>
 
-      <div class="qual-showcase tab-container">
+      <div class="qual-wrapper-wide tab-container">
         <!-- Tab Navigation -->
-        <div class="tab-nav">
-          <button class="tab-btn active" data-tab="tab-speaking">🗣️ Speaking (Human)</button>
-          <button class="tab-btn" data-tab="tab-music">🎵 Music (Accordion & Ukulele)</button>
-          <button class="tab-btn" data-tab="tab-machine">✈️ Machine (Airplane)</button>
-          <button class="tab-btn" data-tab="tab-animal">🐕 Animal (Dog)</button>
-          <button class="tab-btn" data-tab="tab-failures">⚠️ Failure Mode Analysis</button>
+        <div class="qual-tab-header">
+          <button class="qual-tab-btn active" data-tab="tab-speaking">🗣️ Speaking (Human)</button>
+          <button class="qual-tab-btn" data-tab="tab-music">🎵 Music (Accordion & Ukulele)</button>
+          <button class="qual-tab-btn" data-tab="tab-machine">✈️ Machine (Airplane)</button>
+          <button class="qual-tab-btn" data-tab="tab-animal">🐕 Animal (Dog)</button>
+          <button class="qual-tab-btn" data-tab="tab-failures">⚠️ Failure Mode Analysis</button>
         </div>
 
         <!-- Tab 1: Speaking -->
-        <div id="tab-speaking" class="tab-pane active">
-          <div class="qual-figure-box">
+        <div id="tab-speaking" class="qual-pane-content active">
+          <div class="qual-hero-img-box">
             <img src="images/speaking_paper_result.jpg" alt="Speaking Category Qualitative Comparison" class="zoomable-img">
           </div>
-          <div class="qual-meta-grid">
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">Scene Configuration</div>
-              <div class="qual-meta-desc">Outdoor interview with two people in-frame; only the female speaker is active in speech.</div>
+          <div class="qual-meta-banner">
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Scene Configuration
+              </div>
+              <div class="qual-meta-text">Outdoor conversational scene with two individuals; only the speaker on the left vocalizes across the sequence.</div>
             </div>
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">Ground Truth (GT)</div>
-              <div class="qual-meta-desc">Masks active vocalizer across frames; leaves interviewer unmasked during silence.</div>
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Ground Truth (GT)
+              </div>
+              <div class="qual-meta-text">Exhaustively masks the active speaker; correctly leaves the silent conversational partner unmasked.</div>
             </div>
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">SAVIS Performance</div>
-              <div class="qual-meta-desc">Consistently tracks the speaking speaker without leaking attention masks onto the listener.</div>
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                SAVIS Prediction
+              </div>
+              <div class="qual-meta-text">Precisely binds acoustic features to the speaking instance, avoiding false-positive masks on silent bystanders.</div>
             </div>
           </div>
         </div>
 
         <!-- Tab 2: Music -->
-        <div id="tab-music" class="tab-pane">
-          <div class="qual-figure-box">
+        <div id="tab-music" class="qual-pane-content">
+          <div class="qual-hero-img-box">
             <img src="images/music_paper_result.jpg" alt="Music Category Qualitative Comparison" class="zoomable-img">
           </div>
-          <div class="qual-meta-grid">
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">Scene Configuration</div>
-              <div class="qual-meta-desc">Musical duet featuring simultaneous accordion and ukulele performers.</div>
+          <div class="qual-meta-banner">
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Scene Configuration
+              </div>
+              <div class="qual-meta-text">Live instrumental performance featuring simultaneous accordion and ukulele performers in close proximity.</div>
             </div>
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">Temporal Dynamics</div>
-              <div class="qual-meta-desc">Continuous acoustic harmonic signals with rapid hand and finger articulations.</div>
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                Temporal Dynamics
+              </div>
+              <div class="qual-meta-text">Continuous acoustic harmonic signals with rapid hand articulations and instrument deformations.</div>
             </div>
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">SAVIS Performance</div>
-              <div class="qual-meta-desc">Precise multi-instance boundary tracking for both instruments with zero identity cross-talk.</div>
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                SAVIS Prediction
+              </div>
+              <div class="qual-meta-text">Delivers sharp instance boundary separation for both instruments with zero identity switches over time.</div>
             </div>
           </div>
         </div>
 
         <!-- Tab 3: Machine -->
-        <div id="tab-machine" class="tab-pane">
-          <div class="qual-figure-box" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <div id="tab-machine" class="qual-pane-content">
+          <div class="qual-hero-img-box" style="display: flex; flex-direction: column; gap: 0.85rem;">
             <div>
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.25rem;">GROUND TRUTH (GT)</div>
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.35rem;">GROUND TRUTH (GT)</div>
               <img src="images/qual/machine_gt.jpg" alt="Machine Ground Truth" class="zoomable-img">
             </div>
             <div>
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.25rem;">SAVIS PREDICTION (SEG)</div>
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.35rem;">SAVIS PREDICTION (SEG)</div>
               <img src="images/qual/machine_seg.jpg" alt="Machine SAVIS Prediction" class="zoomable-img">
             </div>
           </div>
-          <div class="qual-meta-grid">
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">Scene Configuration</div>
-              <div class="qual-meta-desc">Airplane moving at high velocity with continuous engine acoustic signature.</div>
+          <div class="qual-meta-banner">
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">Scene Configuration</div>
+              <div class="qual-meta-text">Airplane moving at high velocity with continuous engine acoustic signature.</div>
             </div>
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">Temporal Dynamics</div>
-              <div class="qual-meta-desc">Rapid camera pan and translation across sky background.</div>
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">Temporal Dynamics</div>
+              <div class="qual-meta-text">Rapid camera pan and translation across sky background.</div>
             </div>
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">SAVIS Performance</div>
-              <div class="qual-meta-desc">Strong spatio-temporal mask continuity throughout the rapid translational trajectory.</div>
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">SAVIS Prediction</div>
+              <div class="qual-meta-text">Strong spatio-temporal mask continuity throughout the rapid translational trajectory.</div>
             </div>
           </div>
         </div>
 
         <!-- Tab 4: Animal -->
-        <div id="tab-animal" class="tab-pane">
-          <div class="qual-figure-box" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <div id="tab-animal" class="qual-pane-content">
+          <div class="qual-hero-img-box" style="display: flex; flex-direction: column; gap: 0.85rem;">
             <div>
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.25rem;">GROUND TRUTH (GT)</div>
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.35rem;">GROUND TRUTH (GT)</div>
               <img src="images/qual/animal_gt.jpg" alt="Animal Ground Truth" class="zoomable-img">
             </div>
             <div>
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.25rem;">SAVIS PREDICTION (SEG)</div>
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.35rem;">SAVIS PREDICTION (SEG)</div>
               <img src="images/qual/animal_seg.jpg" alt="Animal SAVIS Prediction" class="zoomable-img">
             </div>
           </div>
-          <div class="qual-meta-grid">
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">Scene Configuration</div>
-              <div class="qual-meta-desc">Dynamic domestic animal scenario with transient barking vocalizations.</div>
+          <div class="qual-meta-banner">
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">Scene Configuration</div>
+              <div class="qual-meta-text">Dynamic domestic animal scenario with transient barking vocalizations.</div>
             </div>
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">Acoustic Coupling</div>
-              <div class="qual-meta-desc">Short-burst vocalization aligned with rapid body posture shifts.</div>
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">Acoustic Coupling</div>
+              <div class="qual-meta-text">Short-burst vocalization aligned with rapid body posture shifts.</div>
             </div>
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">SAVIS Performance</div>
-              <div class="qual-meta-desc">Accurately localizes the sounding dog instance while isolating background noise.</div>
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">SAVIS Prediction</div>
+              <div class="qual-meta-text">Accurately localizes the sounding dog instance while isolating background noise.</div>
             </div>
           </div>
         </div>
 
-        <!-- Tab 5: Failure Cases -->
-        <div id="tab-failures" class="tab-pane">
-          <div class="qual-figure-box" style="display: flex; flex-direction: column; gap: 1rem;">
+        <!-- Tab 5: Failure Modes -->
+        <div id="tab-failures" class="qual-pane-content">
+          <div class="qual-hero-img-box" style="display: flex; flex-direction: column; gap: 1.15rem;">
             <div>
-              <div style="font-size: 0.8rem; font-weight: 700; color: var(--accent-rose); margin-bottom: 0.25rem;">FAILURE CASE 1: Partial Occlusion & Boundary Ambiguity</div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+              <div style="font-size: 0.8rem; font-weight: 750; color: var(--accent-rose); margin-bottom: 0.35rem;">FAILURE CASE 1: Partial Occlusion & Boundary Ambiguity</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
                 <div>
                   <span style="font-size: 0.7rem; font-weight: 600; color: var(--text-muted);">GT Mask</span>
                   <img src="images/qual/under_gt.jpg" alt="Under-segmentation Ground Truth" class="zoomable-img">
@@ -613,8 +637,8 @@
             </div>
 
             <div>
-              <div style="font-size: 0.8rem; font-weight: 700; color: var(--accent-rose); margin-bottom: 0.25rem;">FAILURE CASE 2: Complex Cluttered Background Over-segmentation</div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+              <div style="font-size: 0.8rem; font-weight: 750; color: var(--accent-rose); margin-bottom: 0.35rem;">FAILURE CASE 2: Complex Cluttered Background Over-segmentation</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
                 <div>
                   <span style="font-size: 0.7rem; font-weight: 600; color: var(--text-muted);">GT Mask</span>
                   <img src="images/qual/over_gt.jpg" alt="Over-segmentation Ground Truth" class="zoomable-img">
@@ -626,130 +650,19 @@
               </div>
             </div>
           </div>
-          <div class="qual-meta-grid">
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">Observation</div>
-              <div class="qual-meta-desc">In visually ambiguous or heavily occluded scenes, queries with weak visual boundaries may bleed into adjacent regions.</div>
+          <div class="qual-meta-banner">
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">Observation</div>
+              <div class="qual-meta-text">In visually ambiguous scenes, queries with weak visual boundaries may bleed into adjacent regions.</div>
             </div>
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">Underlying Factor</div>
-              <div class="qual-meta-desc">High-capacity encoders (such as BEATs) maximize detection recall but exhibit heightened sensitivity to ambient background acoustic cues.</div>
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">Underlying Factor</div>
+              <div class="qual-meta-text">High-capacity encoders (such as BEATs) maximize detection recall but exhibit heightened sensitivity to ambient background acoustic cues.</div>
             </div>
-            <div class="qual-meta-item">
-              <div class="qual-meta-label">Future Remedy</div>
-              <div class="qual-meta-desc">A supervised classification calibration head reading from downstream embeddings rather than attention weights.</div>
+            <div class="qual-meta-card">
+              <div class="qual-meta-title">Future Remedy</div>
+              <div class="qual-meta-text">A supervised classification calibration head reading from downstream embeddings rather than attention weights.</div>
             </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Video Demo Section -->
-  <section id="demo">
-    <div class="container-wide">
-      <div class="section-header">
-        <span class="section-tag">Demonstration</span>
-        <h2 class="section-title">Video Inference Showcases</h2>
-        <p class="section-subtitle">Real-time video instance segmentation and tracking of sounding sources across continuous timelines.</p>
-      </div>
-
-      <div class="video-grid">
-        
-        <!-- Video Card 1 -->
-        <div class="video-card">
-          <div class="video-wrapper">
-            <div class="video-placeholder">
-              <div class="video-placeholder-icon">▶</div>
-              <span style="font-weight: 600; font-size: 0.95rem;">Speaking Scenario Demo</span>
-              <span style="font-size: 0.8rem; color: #94a3b8;">Temporal instance discrimination</span>
-            </div>
-          </div>
-          <div class="video-card-body">
-            <h4 class="video-card-title">Conversational Speech Isolation</h4>
-            <p class="video-card-desc">Demonstrating precise instance mask activation synchronized to voice activity, leaving silent interlocutors unmasked.</p>
-          </div>
-        </div>
-
-        <!-- Video Card 2 -->
-        <div class="video-card">
-          <div class="video-wrapper">
-            <div class="video-placeholder">
-              <div class="video-placeholder-icon">▶</div>
-              <span style="font-weight: 600; font-size: 0.95rem;">Musical Ensemble Demo</span>
-              <span style="font-size: 0.8rem; color: #94a3b8;">Multi-source acoustic tracking</span>
-            </div>
-          </div>
-          <div class="video-card-body">
-            <h4 class="video-card-title">Polyphonic Instrument Association</h4>
-            <p class="video-card-desc">Tracking articulated instruments under simultaneous playback with persistent instance identities across sequence duration.</p>
-          </div>
-        </div>
-
-        <!-- Video Card 3 -->
-        <div class="video-card">
-          <div class="video-wrapper">
-            <div class="video-placeholder">
-              <div class="video-placeholder-icon">▶</div>
-              <span style="font-weight: 600; font-size: 0.95rem;">Dynamic Scene Demo</span>
-              <span style="font-size: 0.8rem; color: #94a3b8;">Acoustic onset localization</span>
-            </div>
-          </div>
-          <div class="video-card-body">
-            <h4 class="video-card-title">Fast Motion & Sound Transitions</h4>
-            <p class="video-card-desc">Evaluating rapid transitions from silence to sound, demonstrating sub-frame response to acoustic onsets.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Empirical Findings & Analysis Section -->
-  <section id="analysis">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Scientific Insights</span>
-        <h2 class="section-title">Analysis & Key Findings</h2>
-        <p class="section-subtitle">Pre-registered diagnostic probes on AVISeg benchmark structure and internal model representations.</p>
-      </div>
-
-      <div class="findings-timeline">
-        
-        <div class="finding-item">
-          <span class="finding-badge badge-confirmed">Confirmed</span>
-          <div class="finding-content">
-            <h4>1. Extreme Object Scale Disparity Across Benchmark Categories</h4>
-            <p>We measured per-instance pixel area across all 26 AVISeg categories: small wind instruments (flute, trumpet, clarinet) exhibit median areas of 4.6k–9.2k px, mid-sized instruments (violin, guitar) 19k–32k px, while non-instrument classes (person, dog, cat) exceed 110k px—a span of nearly two orders of magnitude.</p>
-            <div class="finding-verdict">&bull; Architectural Response: Channel-spatial CBAM refinement with zero-initialized residual gating.</div>
-          </div>
-        </div>
-
-        <div class="finding-item">
-          <span class="finding-badge badge-refuted">Refuted</span>
-          <div class="finding-content">
-            <h4>2. Hypothesis: Audio Energy Decays Gradually at Silence Transitions</h4>
-            <p>We measured the \(L_2\) norm of audio embeddings over a 6-frame window across 373 sounding-to-silent transitions. The norm drops from 3.6747 to 3.5727 within a single frame—completing <strong>61.2%</strong> of the total decay to steady-state silence in under 1 second.</p>
-            <div class="finding-verdict">&bull; Verdict: Transitions are sharp. Silent-frame errors are not caused by lingering audio decay; temporal smoothing remedies are refuted.</div>
-          </div>
-        </div>
-
-        <div class="finding-item">
-          <span class="finding-badge badge-redirected">Redirected</span>
-          <div class="finding-content">
-            <h4>3. Same-Category Co-Sounding Dynamics</h4>
-            <p>We measured how often multiple same-category instances appear together and desynchronize. Musical instruments almost never desynchronize (0.6%–3.1% for violin, guitar, pipa), while the primary source of co-sounding confusion is <strong>conversational humans (45.9%)</strong>, cats (27.7%), and dogs (15.7%).</p>
-            <div class="finding-verdict">&bull; Verdict: Same-category contamination is fundamentally a multi-speaker speech phenomenon rather than an instrument-ensemble challenge.</div>
-          </div>
-        </div>
-
-        <div class="finding-item">
-          <span class="finding-badge badge-confirmed">Confirmed</span>
-          <div class="finding-content">
-            <h4>4. Downstream Classification vs. Attention Weight Separability</h4>
-            <p>Using a pre-registered effect-size threshold (Cohen's \(d \ge 0.5\)), raw attention weights fail to separate sounding from silent instances (\(d = -0.27\) and \(d = 0.005\)). In contrast, the margin at the final classification layer downstream of attention strongly separates sounding vs silent instances (<strong>Cohen's \(d = 0.555, p < 10^{-60}\)</strong>).</p>
-            <div class="finding-verdict">&bull; Verdict: Supervised silence calibration must operate on classification embeddings rather than raw attention maps.</div>
           </div>
         </div>
 
@@ -840,64 +753,6 @@ python demo_video/demo.py \
   --output-dir demo_output/</code></pre>
       </div>
 
-    </div>
-  </section>
-
-  <!-- Resources Section -->
-  <section id="resources">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Assets</span>
-        <h2 class="section-title">Resources & Links</h2>
-      </div>
-
-      <div class="resources-grid">
-        
-        <a href="https://arxiv.org/abs/2603.01431" target="_blank" rel="noopener noreferrer" class="resource-card">
-          <div>
-            <div class="resource-card-top">
-              <div class="resource-icon">📄</div>
-              <h4 class="resource-title">Research Paper</h4>
-            </div>
-            <p class="resource-desc">Preprint detailing measurements, sink-augmented architecture, and ablations.</p>
-          </div>
-          <span class="resource-link-text">arXiv:2603.01431 &rarr;</span>
-        </a>
-
-        <a href="https://github.com/Sayyam-Akram/savis" target="_blank" rel="noopener noreferrer" class="resource-card">
-          <div>
-            <div class="resource-card-top">
-              <div class="resource-icon">💻</div>
-              <h4 class="resource-title">Source Code</h4>
-            </div>
-            <p class="resource-desc">Official PyTorch implementation, configs, training scripts, and demo visualizer.</p>
-          </div>
-          <span class="resource-link-text">GitHub Repository &rarr;</span>
-        </a>
-
-        <a href="https://onedrive.live.com/?id=%2Fpersonal%2F3c9af704fb61931d%2FDocuments&viewid=75c49926%2D2803%2D4280%2D994e%2Da8047deca96b&listurl=%2Fpersonal%2F3c9af704fb61931d%2FDocuments&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3UvYy8zYzlhZjcwNGZiNjE5MzFkL0VURERsaVE4elpGR21ZeGxMVlB5aTNzQmlzX2ZkalgwdzhtSmh5UW5ZVlNkWEE%5FZT1XdDdwVWI&ga=1" target="_blank" rel="noopener noreferrer" class="resource-card">
-          <div>
-            <div class="resource-card-top">
-              <div class="resource-icon">📊</div>
-              <h4 class="resource-title">AVISeg Dataset</h4>
-            </div>
-            <p class="resource-desc">926 annotated video clips across 26 sound-emitting categories.</p>
-          </div>
-          <span class="resource-link-text">OneDrive Dataset &rarr;</span>
-        </a>
-
-        <a href="https://drive.google.com/file/d/13DR2U54zjZwswYSYp4xg1TgsMrxrRbE4/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="resource-card">
-          <div>
-            <div class="resource-card-top">
-              <div class="resource-icon">⚖️</div>
-              <h4 class="resource-title">Model Weights</h4>
-            </div>
-            <p class="resource-desc">Trained SAVIS checkpoints and pretrained audio/visual backbones.</p>
-          </div>
-          <span class="resource-link-text">Google Drive Weights &rarr;</span>
-        </a>
-
-      </div>
     </div>
   </section>
 

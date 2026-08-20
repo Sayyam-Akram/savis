@@ -79,8 +79,8 @@ function initTabs() {
   const tabContainers = document.querySelectorAll('.tab-container');
 
   tabContainers.forEach(container => {
-    const buttons = container.querySelectorAll('.tab-btn');
-    const panes = container.querySelectorAll('.tab-pane');
+    const buttons = container.querySelectorAll('.tab-btn, .qual-tab-btn');
+    const panes = container.querySelectorAll('.tab-pane, .qual-pane-content');
 
     buttons.forEach(button => {
       button.addEventListener('click', () => {
@@ -176,7 +176,7 @@ function initCopyButtons() {
    Image Lightbox Viewer (Click to Zoom)
    -------------------------------------------------------------------------- */
 function initImageLightbox() {
-  const zoomableImages = document.querySelectorAll('.zoomable-img, .figure-wrapper img, .qual-figure-box img');
+  const zoomableImages = document.querySelectorAll('.zoomable-img, .figure-wrapper img, .arch-figure-img, .qual-hero-img-box img');
   const lightbox = document.getElementById('lightbox-modal');
   const lightboxImg = document.getElementById('lightbox-img');
   const closeBtn = document.getElementById('lightbox-close-btn');
