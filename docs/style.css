@@ -1,6 +1,6 @@
 /* ==========================================================================
    SAVIS: Audio-Visual Instance Segmentation - Academic Project Page CSS
-   High-End 2026 CVPR / NeurIPS / ECCV Research Paper Aesthetic
+   Clean, Modern 2026 CVPR / NeurIPS / ECCV Research Paper Aesthetic
    ========================================================================== */
 
 :root {
@@ -15,7 +15,7 @@
   --bg-card-hover: #f1f5f9;
   --bg-highlight: #f0fdf4;
   --bg-tag: #f1f5f9;
-  --bg-code: #090d16;
+  --bg-code: #0a0f1d;
   
   --text-main: #1e293b;
   --text-muted: #64748b;
@@ -38,8 +38,8 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
 
-  --max-content-width: 1100px;
-  --max-wide-width: 1240px;
+  --max-content-width: 960px;
+  --max-wide-width: 1220px;
   --max-ultrawide-width: 1380px;
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -50,7 +50,7 @@
   --transition-normal: 0.25s ease;
 }
 
-/* Dark mode */
+/* Dark mode support */
 [data-theme="dark"] {
   --bg-page: #0b0f19;
   --bg-subtle: #111827;
@@ -123,7 +123,7 @@ img, video {
 }
 
 /* --------------------------------------------------------------------------
-   Sticky Top Navigation Bar
+   Sticky Navigation Bar
    -------------------------------------------------------------------------- */
 .top-nav {
   position: sticky;
@@ -243,7 +243,7 @@ img, video {
 }
 
 section {
-  padding: 3.25rem 0;
+  padding: 3.5rem 0;
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -276,22 +276,22 @@ section:last-of-type {
 }
 
 /* --------------------------------------------------------------------------
-   Compact, Clean Hero Section (Concise, Horizontal)
+   Hero Section (Compact, Horizontal & Clean)
    -------------------------------------------------------------------------- */
 .hero-compact {
-  padding: 2.75rem 0 2.25rem;
+  padding: 3rem 0 2.5rem;
   text-align: center;
   background: linear-gradient(180deg, var(--bg-subtle) 0%, var(--bg-page) 100%);
   border-bottom: 1px solid var(--border-light);
 }
 
 .hero-title-compact {
-  font-size: 2.65rem;
+  font-size: 2.75rem;
   font-weight: 850;
   color: var(--text-heading);
   letter-spacing: -0.04em;
   line-height: 1.15;
-  max-width: 920px;
+  max-width: 950px;
   margin: 0 auto 0.75rem;
 }
 
@@ -299,7 +299,7 @@ section:last-of-type {
   font-size: 1.15rem;
   font-weight: 400;
   color: var(--text-muted);
-  max-width: 780px;
+  max-width: 800px;
   margin: 0 auto 1.25rem;
   line-height: 1.5;
 }
@@ -399,94 +399,64 @@ section:last-of-type {
 }
 
 /* --------------------------------------------------------------------------
-   Side-by-Side 2-Column Layout Grids
+   Full-Width Visual Teaser
    -------------------------------------------------------------------------- */
-.side-by-side-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: stretch;
-}
-
-@media (max-width: 960px) {
-  .side-by-side-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-}
-
-/* Abstract Box (Left Column) */
-.abstract-panel {
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
-  border-left: 4px solid var(--accent-primary);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem 2rem;
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.abstract-panel-title {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--text-heading);
-  margin-bottom: 0.85rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.abstract-body-text {
-  font-size: 0.95rem;
-  line-height: 1.75;
-  color: var(--text-main);
-  text-align: justify;
-}
-
-.abstract-body-text p + p {
-  margin-top: 0.85rem;
-}
-
-/* Teaser / Result Box (Right Column) */
-.teaser-panel {
+.teaser-card {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 0;
 }
 
-.teaser-img-wrap {
+.teaser-figure-container {
   background: #ffffff;
-  padding: 1.25rem 1.25rem 0.5rem;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 1.5rem 1.5rem 0.75rem;
+  position: relative;
 }
 
-.teaser-img-wrap img {
+.teaser-img {
   width: 100%;
   height: auto;
   border-radius: var(--radius-sm);
-  cursor: zoom-in;
+  display: block;
 }
 
-.teaser-panel-caption {
-  padding: 0.85rem 1.25rem;
+.teaser-caption {
+  padding: 1rem 1.5rem 1.25rem;
   background: var(--bg-subtle);
   border-top: 1px solid var(--border-light);
-  font-size: 0.84rem;
+  font-size: 0.925rem;
   color: var(--text-muted);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
-.teaser-panel-caption strong {
+.teaser-caption strong {
   color: var(--text-heading);
+}
+
+/* --------------------------------------------------------------------------
+   Abstract Section (Clean, Well-Indented Academic Card)
+   -------------------------------------------------------------------------- */
+.abstract-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-left: 4px solid var(--accent-primary);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem 2.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.abstract-text {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-main);
+  text-align: justify;
+}
+
+.abstract-text p + p {
+  margin-top: 1.15rem;
 }
 
 /* --------------------------------------------------------------------------
@@ -635,7 +605,7 @@ section:last-of-type {
   overflow-x: auto;
   background: var(--bg-subtle);
   border-bottom: 1px solid var(--border-light);
-  padding: 0.55rem 0.75rem 0;
+  padding: 0.6rem 0.75rem 0;
   gap: 0.35rem;
 }
 
@@ -643,8 +613,8 @@ section:last-of-type {
   background: transparent;
   border: 1px solid transparent;
   border-bottom: none;
-  padding: 0.7rem 1.25rem;
-  font-size: 0.9rem;
+  padding: 0.75rem 1.35rem;
+  font-size: 0.925rem;
   font-weight: 600;
   color: var(--text-muted);
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
@@ -674,7 +644,7 @@ section:last-of-type {
 
 .qual-pane-content {
   display: none;
-  padding: 1.75rem;
+  padding: 2rem;
 }
 
 .qual-pane-content.active {
@@ -687,7 +657,7 @@ section:last-of-type {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.qual-hero-img-box {
+.qual-figure-frame {
   background: #ffffff;
   border-radius: var(--radius-md);
   padding: 1.25rem;
@@ -695,30 +665,65 @@ section:last-of-type {
   width: 100%;
 }
 
-.qual-hero-img-box img {
+.qual-figure-frame img {
   width: 100%;
   height: auto;
   border-radius: var(--radius-sm);
   cursor: zoom-in;
 }
 
+.qual-failure-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.qual-failure-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.qual-failure-header {
+  font-size: 0.95rem;
+  font-weight: 750;
+  color: var(--accent-rose);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.qual-failure-img-wrap {
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.qual-failure-img-wrap img {
+  width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+
 .qual-meta-banner {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.25rem;
-  margin-top: 1.25rem;
-  padding-top: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
   border-top: 1px solid var(--border-light);
 }
 
 .qual-meta-card {
-  font-size: 0.885rem;
+  font-size: 0.9rem;
 }
 
 .qual-meta-title {
   font-weight: 700;
   color: var(--text-heading);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -726,34 +731,31 @@ section:last-of-type {
 
 .qual-meta-text {
   color: var(--text-muted);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 /* --------------------------------------------------------------------------
-   Side-by-Side: Code (Installation & Execution) + Citation (References)
+   Installation & Execution Section (Full-Width, Spacious, Clean)
    -------------------------------------------------------------------------- */
-.code-panel-wrapper {
+.code-container-full {
   background: var(--bg-code);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-md);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  box-shadow: var(--shadow-lg);
 }
 
-.code-header {
+.code-header-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.65rem 1.15rem;
+  padding: 0.75rem 1.25rem;
   background: rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.code-nav {
+.code-tab-nav {
   display: flex;
-  gap: 0.35rem;
+  gap: 0.4rem;
   overflow-x: auto;
 }
 
@@ -761,9 +763,9 @@ section:last-of-type {
   background: transparent;
   border: none;
   color: #94a3b8;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  padding: 0.3rem 0.65rem;
+  padding: 0.4rem 0.85rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
   white-space: nowrap;
@@ -784,14 +786,14 @@ section:last-of-type {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: #cbd5e1;
-  font-size: 0.785rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  padding: 0.3rem 0.65rem;
+  padding: 0.35rem 0.85rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.4rem;
   transition: all var(--transition-fast);
 }
 
@@ -808,14 +810,13 @@ section:last-of-type {
 
 .code-block {
   display: none;
-  padding: 1.15rem 1.25rem;
+  padding: 1.35rem 1.5rem;
   margin: 0;
   overflow-x: auto;
   font-family: var(--font-mono);
-  font-size: 0.825rem;
-  line-height: 1.6;
+  font-size: 0.875rem;
+  line-height: 1.65;
   color: var(--text-code);
-  flex: 1;
 }
 
 .code-block.active {
@@ -826,50 +827,52 @@ section:last-of-type {
   font-family: inherit;
 }
 
-/* Citation Panel (Right Column) */
-.citation-panel-wrapper {
+/* --------------------------------------------------------------------------
+   Citation Section (Dedicated, Bold, High-Contrast)
+   -------------------------------------------------------------------------- */
+.citation-card-bold {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
+  padding: 1.75rem 2rem;
   box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
 }
 
-.citation-header {
+.citation-header-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
-.citation-title {
+.citation-title-bold {
   font-size: 1.15rem;
   font-weight: 800;
   color: var(--text-heading);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.bibtex-code-compact {
+.bibtex-code-bold {
   background: var(--bg-code);
-  color: var(--text-code);
-  padding: 1rem 1.15rem;
-  border-radius: var(--radius-sm);
+  color: #ffffff;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-md);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  line-height: 1.55;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.65;
   overflow-x: auto;
   white-space: pre;
-  flex: 1;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.citation-note {
-  margin-top: 0.75rem;
-  font-size: 0.8rem;
+.citation-footer-note {
+  margin-top: 1rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 /* --------------------------------------------------------------------------
@@ -878,7 +881,7 @@ section:last-of-type {
 footer {
   background: var(--bg-subtle);
   border-top: 1px solid var(--border-light);
-  padding: 2.75rem 0 2rem;
+  padding: 3rem 0 2.25rem;
   font-size: 0.875rem;
   color: var(--text-muted);
   text-align: center;
@@ -888,7 +891,7 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.85rem;
+  gap: 1rem;
 }
 
 .footer-links {
@@ -967,7 +970,7 @@ footer {
   }
 
   .hero-title-compact {
-    font-size: 2.15rem;
+    font-size: 2.25rem;
   }
 
   .hero-subtitle-compact {
@@ -975,7 +978,7 @@ footer {
   }
 
   .section-title {
-    font-size: 1.65rem;
+    font-size: 1.75rem;
   }
 
   .hero-actions-compact {
@@ -989,5 +992,9 @@ footer {
 
   .qual-pane-content {
     padding: 1.25rem;
+  }
+
+  .abstract-box {
+    padding: 1.5rem;
   }
 }

@@ -19,7 +19,7 @@
   <!-- Google Fonts & KaTeX for LaTeX Math -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;850&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;850&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
@@ -39,10 +39,11 @@
 
       <nav>
         <ul class="nav-links">
-          <li><a href="#overview">Abstract & Overview</a></li>
+          <li><a href="#abstract">Abstract</a></li>
           <li><a href="#results">Benchmark</a></li>
           <li><a href="#qualitative">Qualitative</a></li>
-          <li><a href="#code-citation">Code & Citation</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#citation">Citation</a></li>
         </ul>
       </nav>
 
@@ -81,7 +82,7 @@
         <span class="affiliation-tag">Department of Computer Science, GIFT University, Pakistan</span>
       </div>
 
-      <!-- Compact Action Buttons -->
+      <!-- Action Buttons -->
       <div class="hero-actions-compact">
         <a href="https://arxiv.org/abs/2603.01431" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-primary">
           <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
@@ -99,7 +100,7 @@
           <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
           Model Weights
         </a>
-        <a href="#code-citation" class="btn-pill btn-pill-accent">
+        <a href="#citation" class="btn-pill btn-pill-accent">
           <svg viewBox="0 0 24 24"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
           BibTeX
         </a>
@@ -108,42 +109,39 @@
     </div>
   </section>
 
-  <!-- Side-by-Side: Abstract & Overview Result (Left & Right Horizontally Aligned) -->
-  <section id="overview">
+  <!-- Full-Width Visual Teaser Section -->
+  <section id="teaser" style="padding-top: 2rem; padding-bottom: 2rem;">
     <div class="container-wide">
-      <div class="side-by-side-grid">
-        
-        <!-- Left: Abstract Panel -->
-        <div class="abstract-panel">
-          <div>
-            <h2 class="abstract-panel-title">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-              Abstract
-            </h2>
-            <div class="abstract-body-text">
-              <p>
-                Audio-Visual Instance Segmentation (<strong>AVIS</strong>) requires a deep learning model to find, segment, and track every object instance that is <em>actively producing sound</em> throughout an untrimmed video sequence. On the standard AVISeg benchmark, the silent-frame sub-metric <strong>FSLAn</strong>—the fraction of genuinely silent frames a model leaves correctly unmasked—remains the weakest score across all published methods.
-              </p>
-              <p>
-                We first measure four foundational properties of AVISeg and baseline internals: establishing that residual audio does not linger across sound-to-silence boundaries, that same-category confusion is predominantly a multi-speaker rather than an instrument-ensemble phenomenon, and that sounding versus silent signals are separable at the model's downstream classification embeddings (Cohen's \(d = 0.555\)) rather than within raw attention weights.
-              </p>
-              <p>
-                Guided by these empirical measurements, we introduce <strong>SAVIS</strong> (Sink-Augmented Audio-Visual Instance Segmentation). SAVIS augments the windowed Video-Level Audio-Visual Fusion Module (VL-AVFM) with attention-sink registry tokens alongside channel-spatial attention on multi-scale visual features, causal cross-attention fusion (CCAF), and audio-guided contrastive learning (AGCL). Trained on a single consumer GPU under the ImageNet-only protocol, SAVIS with BEATs improves six of eight benchmark metrics over the CVPR'25 baseline, while our VGGish configuration lifts silent-frame accuracy by 8 points (to 40.28) and achieves the highest overall mAP (41.80).
-              </p>
-            </div>
-          </div>
+      <div class="teaser-card">
+        <div class="teaser-figure-container">
+          <img src="images/speaking_paper_result.jpg" alt="SAVIS Audio-Visual Instance Segmentation Teaser" class="teaser-img zoomable-img">
         </div>
-
-        <!-- Right: Teaser / Result Preview Panel -->
-        <div class="teaser-panel">
-          <div class="teaser-img-wrap">
-            <img src="images/speaking_paper_result.jpg" alt="SAVIS Audio-Visual Instance Discrimination" class="zoomable-img">
-          </div>
-          <div class="teaser-panel-caption">
-            <strong>Figure 1: Audio-Visual Instance Discrimination Over Time.</strong> Synchronized audio waveform (top), Ground Truth annotations (middle), and SAVIS predicted instance masks (bottom) across sampled video frames. When two people share the frame, SAVIS localizes and tracks only the speaking individual while correctly leaving the silent conversational partner unmasked.
-          </div>
+        <div class="teaser-caption">
+          <strong>Figure 1: Audio-Visual Instance Discrimination Over Time.</strong> A representative multi-speaker conversational scene from the AVISeg benchmark. The top row illustrates the synchronized audio waveform across sampled video frames. The middle row displays the ground-truth annotation (<strong>GT</strong>). The bottom row displays the predicted segmentation by <strong>SAVIS</strong>. Notice that when two people share the visual frame, SAVIS accurately localizes and tracks only the vocalizing speaker over time, correctly leaving the silent conversational partner unmasked.
         </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- Abstract Section (Centered, Clean Reading Width) -->
+  <section id="abstract">
+    <div class="container">
+      <div class="abstract-box">
+        <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--text-heading); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Abstract
+        </h2>
+        <div class="abstract-text">
+          <p>
+            Audio-Visual Instance Segmentation (<strong>AVIS</strong>) requires a deep learning model to find, segment, and track every object instance that is <em>actively producing sound</em> throughout an untrimmed video sequence. On the standard AVISeg benchmark, the silent-frame sub-metric <strong>FSLAn</strong>—the fraction of genuinely silent frames a model leaves correctly unmasked—remains the weakest score across all published methods, with recent extensions trading it away in exchange for raw detection metrics.
+          </p>
+          <p>
+            We first measure four foundational properties of AVISeg and baseline internals: establishing that residual audio does not linger across sound-to-silence boundaries, that same-category confusion is predominantly a multi-speaker rather than an instrument-ensemble phenomenon, and that sounding versus silent signals are separable at the model's downstream classification embeddings (Cohen's \(d = 0.555\)) rather than within raw attention weights.
+          </p>
+          <p>
+            Guided by these empirical measurements, we introduce <strong>SAVIS</strong> (Sink-Augmented Audio-Visual Instance Segmentation). SAVIS augments the windowed Video-Level Audio-Visual Fusion Module (VL-AVFM) with attention-sink registry tokens alongside channel-spatial attention on multi-scale visual features, causal cross-attention fusion (CCAF), and audio-guided contrastive learning (AGCL). Trained on a single consumer GPU under the ImageNet-only protocol, SAVIS with BEATs improves six of eight benchmark metrics over the CVPR'25 baseline, while our VGGish configuration lifts silent-frame accuracy by 8 points (to 40.28) and achieves the highest overall mAP (41.80).
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -367,7 +365,7 @@
     </div>
   </section>
 
-  <!-- Wide, Immersive Qualitative Results Showcase -->
+  <!-- Wide Qualitative Results Showcase -->
   <section id="qualitative">
     <div class="container-ultrawide">
       <div class="section-header">
@@ -387,7 +385,7 @@
 
         <!-- Tab 1: Speaking -->
         <div id="tab-speaking" class="qual-pane-content active">
-          <div class="qual-hero-img-box">
+          <div class="qual-figure-frame">
             <img src="images/speaking_paper_result.jpg" alt="Speaking Category Qualitative Comparison" class="zoomable-img">
           </div>
           <div class="qual-meta-banner">
@@ -417,7 +415,7 @@
 
         <!-- Tab 2: Music -->
         <div id="tab-music" class="qual-pane-content">
-          <div class="qual-hero-img-box">
+          <div class="qual-figure-frame">
             <img src="images/music_paper_result.jpg" alt="Music Category Qualitative Comparison" class="zoomable-img">
           </div>
           <div class="qual-meta-banner">
@@ -447,15 +445,8 @@
 
         <!-- Tab 3: Machine -->
         <div id="tab-machine" class="qual-pane-content">
-          <div class="qual-hero-img-box" style="display: flex; flex-direction: column; gap: 0.85rem;">
-            <div>
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.35rem;">GROUND TRUTH (GT)</div>
-              <img src="images/qual/machine_gt.jpg" alt="Machine Ground Truth" class="zoomable-img">
-            </div>
-            <div>
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.35rem;">SAVIS PREDICTION (SEG)</div>
-              <img src="images/qual/machine_seg.jpg" alt="Machine SAVIS Prediction" class="zoomable-img">
-            </div>
+          <div class="qual-figure-frame">
+            <img src="images/machine_paper_result.jpg" alt="Machine Category Qualitative Comparison" class="zoomable-img">
           </div>
           <div class="qual-meta-banner">
             <div class="qual-meta-card">
@@ -475,15 +466,8 @@
 
         <!-- Tab 4: Animal -->
         <div id="tab-animal" class="qual-pane-content">
-          <div class="qual-hero-img-box" style="display: flex; flex-direction: column; gap: 0.85rem;">
-            <div>
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.35rem;">GROUND TRUTH (GT)</div>
-              <img src="images/qual/animal_gt.jpg" alt="Animal Ground Truth" class="zoomable-img">
-            </div>
-            <div>
-              <div style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary); margin-bottom: 0.35rem;">SAVIS PREDICTION (SEG)</div>
-              <img src="images/qual/animal_seg.jpg" alt="Animal SAVIS Prediction" class="zoomable-img">
-            </div>
+          <div class="qual-figure-frame">
+            <img src="images/animal_paper_result.jpg" alt="Animal Category Qualitative Comparison" class="zoomable-img">
           </div>
           <div class="qual-meta-banner">
             <div class="qual-meta-card">
@@ -501,45 +485,42 @@
           </div>
         </div>
 
-        <!-- Tab 5: Failure Modes -->
+        <!-- Tab 5: Failure Modes (Large, Clear Stacked Panoramic Sequences) -->
         <div id="tab-failures" class="qual-pane-content">
-          <div class="qual-hero-img-box" style="display: flex; flex-direction: column; gap: 1.15rem;">
-            <div>
-              <div style="font-size: 0.8rem; font-weight: 750; color: var(--accent-rose); margin-bottom: 0.35rem;">FAILURE CASE 1: Partial Occlusion & Boundary Ambiguity</div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                <div>
-                  <span style="font-size: 0.7rem; font-weight: 600; color: var(--text-muted);">GT Mask</span>
-                  <img src="images/qual/under_gt.jpg" alt="Under-segmentation Ground Truth" class="zoomable-img">
-                </div>
-                <div>
-                  <span style="font-size: 0.7rem; font-weight: 600; color: var(--accent-primary);">SAVIS Seg</span>
-                  <img src="images/qual/under_seg.jpg" alt="Under-segmentation SAVIS Prediction" class="zoomable-img">
-                </div>
+          <div class="qual-failure-stack">
+            
+            <!-- Failure Case 1 -->
+            <div class="qual-failure-card">
+              <div class="qual-failure-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                FAILURE CASE 1: Partial Occlusion & Boundary Ambiguity
+              </div>
+              <div class="qual-failure-img-wrap">
+                <img src="images/failure_case_1_result.jpg" alt="Failure Case 1 Comparison" class="zoomable-img">
               </div>
             </div>
 
-            <div>
-              <div style="font-size: 0.8rem; font-weight: 750; color: var(--accent-rose); margin-bottom: 0.35rem;">FAILURE CASE 2: Complex Cluttered Background Over-segmentation</div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                <div>
-                  <span style="font-size: 0.7rem; font-weight: 600; color: var(--text-muted);">GT Mask</span>
-                  <img src="images/qual/over_gt.jpg" alt="Over-segmentation Ground Truth" class="zoomable-img">
-                </div>
-                <div>
-                  <span style="font-size: 0.7rem; font-weight: 600; color: var(--accent-primary);">SAVIS Seg</span>
-                  <img src="images/qual/over_seg.jpg" alt="Over-segmentation SAVIS Prediction" class="zoomable-img">
-                </div>
+            <!-- Failure Case 2 -->
+            <div class="qual-failure-card">
+              <div class="qual-failure-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                FAILURE CASE 2: Complex Cluttered Background Over-segmentation
+              </div>
+              <div class="qual-failure-img-wrap">
+                <img src="images/failure_case_2_result.jpg" alt="Failure Case 2 Comparison" class="zoomable-img">
               </div>
             </div>
+
           </div>
+
           <div class="qual-meta-banner">
             <div class="qual-meta-card">
               <div class="qual-meta-title">Observation</div>
-              <div class="qual-meta-text">In visually ambiguous scenes, queries with weak visual boundaries may bleed into adjacent regions.</div>
+              <div class="qual-meta-text">In visually ambiguous or heavily occluded scenes, queries with weak visual boundaries may bleed into adjacent background regions.</div>
             </div>
             <div class="qual-meta-card">
               <div class="qual-meta-title">Underlying Factor</div>
-              <div class="qual-meta-text">High-capacity encoders (such as BEATs) maximize detection recall but exhibit heightened sensitivity to ambient background acoustic cues.</div>
+              <div class="qual-meta-text">High-capacity audio encoders (such as BEATs) maximize detection recall but exhibit heightened sensitivity to ambient background acoustic cues.</div>
             </div>
             <div class="qual-meta-card">
               <div class="qual-meta-title">Future Remedy</div>
@@ -552,29 +533,31 @@
     </div>
   </section>
 
-  <!-- Side-by-Side: Installation & Execution (Left) + Citation & References (Right) -->
-  <section id="code-citation">
-    <div class="container-wide">
-      <div class="side-by-side-grid">
-        
-        <!-- Left Column: Installation & Execution -->
-        <div class="code-panel-wrapper">
-          <div class="code-header">
-            <div class="code-nav">
-              <button class="code-tab-btn active" data-code="code-install">Environment</button>
-              <button class="code-tab-btn" data-code="code-data">Weights & Data</button>
-              <button class="code-tab-btn" data-code="code-train">Training</button>
-              <button class="code-tab-btn" data-code="code-eval">Evaluation</button>
-              <button class="code-tab-btn" data-code="code-demo">Demo Video</button>
-            </div>
-            <button class="copy-btn" title="Copy code block">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              Copy
-            </button>
-          </div>
+  <!-- Installation & Execution Section (Full-Width, Spacious, Clean) -->
+  <section id="installation">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Installation & Execution</h2>
+        <p class="section-subtitle">Single consumer GPU execution environment (NVIDIA RTX 4080 / Ubuntu 24.04 / CUDA 12.1 / PyTorch 2.1.0).</p>
+      </div>
 
-          <!-- 1. Environment -->
-          <pre id="code-install" class="code-block active"><code># Clone repository
+      <div class="code-container-full">
+        <div class="code-header-bar">
+          <div class="code-tab-nav">
+            <button class="code-tab-btn active" data-code="code-install">Environment</button>
+            <button class="code-tab-btn" data-code="code-data">Weights & Data</button>
+            <button class="code-tab-btn" data-code="code-train">Training</button>
+            <button class="code-tab-btn" data-code="code-eval">Evaluation</button>
+            <button class="code-tab-btn" data-code="code-demo">Demo Video</button>
+          </div>
+          <button class="copy-btn" title="Copy code block">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy Code
+          </button>
+        </div>
+
+        <!-- 1. Environment -->
+        <pre id="code-install" class="code-block active"><code># Clone repository
 git clone https://github.com/Sayyam-Akram/savis.git
 cd savis
 
@@ -582,78 +565,84 @@ cd savis
 conda create --name savis python=3.8 -y
 conda activate savis
 
-# Install PyTorch (CUDA 12.1)
+# Install PyTorch with CUDA 12.1 support
 pip install torch==2.1.0 torchvision==0.16.0 --index-url https://download.pytorch.org/whl/cu121
 
-# Install dependencies & Detectron2
+# Install OpenCV, Ninja, dependencies & Detectron2
 pip install -U opencv-python ninja
 pip install -r requirements.txt
+
 git clone https://github.com/facebookresearch/detectron2.git
 cd detectron2 && pip install -e . && cd ..
 
 # Compile Deformable Attention CUDA Operators
 cd mask2former/modeling/pixel_decoder/ops
-sh make.sh && cd ../../../../</code></pre>
+sh make.sh
+cd ../../../../</code></pre>
 
-          <!-- 2. Weights & Data -->
-          <pre id="code-data" class="code-block"><code># Setup AVISeg Dataset directory
+        <!-- 2. Weights & Data -->
+        <pre id="code-data" class="code-block"><code># Setup AVISeg Dataset directory
 mkdir -p datasets
 # Download and extract AVISeg.zip inside datasets/
 
-# Setup Pretrained Backbones and Weights
+# Setup Pretrained Backbones and Checkpoints
 mkdir -p pre_models checkpoints
-# Place BEATs checkpoint in root:
+
+# Move BEATs checkpoint to root directory:
 # -> BEATs_iter3_plus_AS2M.pt
-# Place visual backbone in pre_models/
-# Place trained checkpoint in checkpoints/:
+# Move visual backbone weights to pre_models/
+# Move trained SAVIS checkpoint to checkpoints/:
 # -> checkpoints/AVISM_R50_IN.pth</code></pre>
 
-          <!-- 3. Training -->
-          <pre id="code-train" class="code-block"><code># Train SAVIS on a single GPU (RTX 4080 16GB)
+        <!-- 3. Training -->
+        <pre id="code-train" class="code-block"><code># Train SAVIS on a single consumer GPU (RTX 4080 16GB, effective batch size 2 via grad accum)
 python train_net.py \
   --config-file configs/avism/R50/avism_R50_IN.yaml \
   --num-gpus 1</code></pre>
 
-          <!-- 4. Evaluation -->
-          <pre id="code-eval" class="code-block"><code># Evaluate SAVIS checkpoint on AVISeg Test Set
+        <!-- 4. Evaluation -->
+        <pre id="code-eval" class="code-block"><code># Evaluate trained SAVIS checkpoint on AVISeg Test Set
 python train_net.py \
   --config-file configs/avism/R50/avism_R50_IN.yaml \
   --eval-only \
   MODEL.WEIGHTS checkpoints/AVISM_R50_IN.pth</code></pre>
 
-          <!-- 5. Demo -->
-          <pre id="code-demo" class="code-block"><code># Run visualization demo on input video
+        <!-- 5. Demo -->
+        <pre id="code-demo" class="code-block"><code># Run visualization demo and generate qualitative segmentations on video sequences
 python demo_video/demo.py \
   --config-file configs/avism/R50/avism_R50_IN.yaml \
   --opts MODEL.WEIGHTS checkpoints/AVISM_R50_IN.pth \
   --output-dir demo_output/</code></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Citation Section (Dedicated, Bold, High-Contrast) -->
+  <section id="citation">
+    <div class="container">
+      <div class="citation-card-bold">
+        <div class="citation-header-row">
+          <h2 class="citation-title-bold">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
+            BibTeX Citation
+          </h2>
+          <button class="copy-btn" data-target="#bibtex-entry" title="Copy BibTeX Citation">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy BibTeX
+          </button>
         </div>
 
-        <!-- Right Column: Citation & References -->
-        <div class="citation-panel-wrapper">
-          <div>
-            <div class="citation-header">
-              <h3 class="citation-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: middle; margin-right: 4px;"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
-                BibTeX Citation
-              </h3>
-              <button class="copy-btn" data-target="#bibtex-entry" title="Copy BibTeX">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                Copy BibTeX
-              </button>
-            </div>
-            <pre id="bibtex-entry" class="bibtex-code-compact">@article{akram2026savis,
+        <pre id="bibtex-entry" class="bibtex-code-bold">@article{akram2026savis,
   title={SAVIS: A Sink-Augmented Baseline for Audio-Visual Instance Segmentation},
   author={Akram, Sayyam and Hamza, Meer and Yousaf, M. Nouman and Akram, Hassan and Ramzan, Umer},
   journal={arXiv preprint arXiv:2603.01431},
   year={2026}
 }</pre>
-          </div>
-          <div class="citation-note">
-            If you find this work or benchmark analysis useful in your research, please consider citing our preprint.
-          </div>
-        </div>
 
+        <p class="citation-footer-note">
+          If you find this work, codebase, or benchmark analysis useful in your research, please consider citing our preprint.
+        </p>
       </div>
     </div>
   </section>
@@ -663,10 +652,10 @@ python demo_video/demo.py \
     <div class="container">
       <div class="footer-content">
         <p>
-          <strong>SAVIS: Audio-Visual Instance Segmentation</strong>
+          <strong>SAVIS: Audio-Visual Instance Segmentation</strong> &mdash; GIFT University
         </p>
         <p style="font-size: 0.825rem; color: var(--text-light); max-width: 600px;">
-          Built upon Detectron2, Mask2Former, VITA, and AVISM. Maintained by Sayyam Akram, GIFT University.
+          Built upon Detectron2, Mask2Former, VITA, and AVISM. Maintained by Sayyam Akram.
         </p>
         <div class="footer-links">
           <a href="https://github.com/Sayyam-Akram/savis" target="_blank" rel="noopener noreferrer">GitHub</a>
