@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SAVIS: Audio-Visual Instance Segmentation | Research Project</title>
+  <title>SAVIS: Audio-Visual Instance Segmentation</title>
   
   <!-- SEO & Open Graph Metadata -->
-  <meta name="description" content="SAVIS: Audio-Visual Instance Segmentation. A deep learning framework for segmenting and tracking sounding objects in video sequences. Final Year Research Project, GIFT University.">
+  <meta name="description" content="SAVIS: Audio-Visual Instance Segmentation. A deep learning framework for segmenting and tracking sounding objects in video sequences.">
   <meta name="keywords" content="SAVIS, Audio-Visual Instance Segmentation, AVIS, Computer Vision, Machine Learning, Deep Learning, Video Segmentation, Multi-modal AI, Attention Sinks">
   <meta name="author" content="Sayyam Akram, Meer Hamza, M. Nouman Yousaf, Hassan Akram, Umer Ramzan">
   
@@ -34,83 +34,72 @@
   <header class="top-nav">
     <div class="nav-container">
       <a href="#hero" class="nav-brand">
-        SAVIS <span class="badge-fyp">FYP 2026</span>
+        SAVIS
       </a>
 
       <nav>
         <ul class="nav-links">
-          <li><a href="#abstract">Abstract</a></li>
+          <li><a href="#overview">Abstract & Overview</a></li>
           <li><a href="#results">Benchmark</a></li>
           <li><a href="#qualitative">Qualitative</a></li>
-          <li><a href="#reproducibility">Code</a></li>
-          <li><a href="#citation">Citation</a></li>
+          <li><a href="#code-citation">Code & Citation</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
         <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle theme" title="Toggle Theme">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
-        <a href="https://github.com/Sayyam-Akram/savis" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.85rem;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        <a href="https://github.com/Sayyam-Akram/savis" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-secondary" style="padding: 0.35rem 0.85rem; font-size: 0.825rem;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           GitHub
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section id="hero" class="hero">
-    <div class="container">
+  <!-- Concise, Professional Hero Section -->
+  <section id="hero" class="hero-compact">
+    <div class="container-wide">
       
-      <div class="hero-tagline">
-        <span class="pulse-dot"></span> Final Year Research Project · 2026
-      </div>
-
-      <h1 class="hero-title">
+      <h1 class="hero-title-compact">
         SAVIS: Audio-Visual Instance Segmentation
       </h1>
 
-      <p class="hero-subtitle">
+      <p class="hero-subtitle-compact">
         A deep learning framework for segmenting and tracking sounding objects in video sequences.
       </p>
 
-      <!-- Authors & Affiliation -->
-      <div class="authors-block">
-        <div class="authors-list">
-          <span class="author-item lead-author">Sayyam Akram<sup>1</sup></span>
-          <span class="author-item">Meer Hamza<sup>1</sup></span>
-          <span class="author-item">M. Nouman Yousaf<sup>1</sup></span>
-          <span class="author-item">Hassan Akram<sup>1</sup></span>
-          <span class="author-item">Umer Ramzan<sup>1,*</sup></span>
-        </div>
-        <div class="affiliations-list">
-          <sup>1</sup> Department of Computer Science, GIFT University, Pakistan
-        </div>
-        <div class="project-meta">
-          * Corresponding Author: <code>umer.ramzan@gift.edu.pk</code>
-        </div>
+      <!-- Compact Horizontal Authors & Affiliation -->
+      <div class="hero-meta-horizontal">
+        <span class="author-lead">Sayyam Akram<sup>1</sup></span>
+        <span class="author-name">Meer Hamza<sup>1</sup></span>
+        <span class="author-name">M. Nouman Yousaf<sup>1</sup></span>
+        <span class="author-name">Hassan Akram<sup>1</sup></span>
+        <span class="author-name">Umer Ramzan<sup>1,*</sup></span>
+        <span style="color: var(--border-medium);">|</span>
+        <span class="affiliation-tag">Department of Computer Science, GIFT University, Pakistan</span>
       </div>
 
-      <!-- Action Buttons -->
-      <div class="hero-buttons">
-        <a href="https://arxiv.org/abs/2603.01431" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+      <!-- Compact Action Buttons -->
+      <div class="hero-actions-compact">
+        <a href="https://arxiv.org/abs/2603.01431" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-primary">
           <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
           Paper (arXiv)
         </a>
-        <a href="https://github.com/Sayyam-Akram/savis" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+        <a href="https://github.com/Sayyam-Akram/savis" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-secondary">
           <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           Code & GitHub
         </a>
-        <a href="https://onedrive.live.com/?id=%2Fpersonal%2F3c9af704fb61931d%2FDocuments&viewid=75c49926%2D2803%2D4280%2D994e%2Da8047deca96b&listurl=%2Fpersonal%2F3c9af704fb61931d%2FDocuments&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3UvYy8zYzlhZjcwNGZiNjE5MzFkL0VURERsaVE4elpGR21ZeGxMVlB5aTNzQmlzX2ZkalgwdzhtSmh5UW5ZVlNkWEE%5FZT1XdDdwVWI&ga=1" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+        <a href="https://onedrive.live.com/?id=%2Fpersonal%2F3c9af704fb61931d%2FDocuments&viewid=75c49926%2D2803%2D4280%2D994e%2Da8047deca96b&listurl=%2Fpersonal%2F3c9af704fb61931d%2FDocuments&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3UvYy8zYzlhZjcwNGZiNjE5MzFkL0VURERsaVE4elpGR21ZeGxMVlB5aTNzQmlzX2ZkalgwdzhtSmh5UW5ZVlNkWEE%5FZT1XdDdwVWI&ga=1" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-secondary">
           <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
           AVISeg Dataset
         </a>
-        <a href="https://drive.google.com/file/d/13DR2U54zjZwswYSYp4xg1TgsMrxrRbE4/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+        <a href="https://drive.google.com/file/d/13DR2U54zjZwswYSYp4xg1TgsMrxrRbE4/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-pill btn-pill-secondary">
           <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
           Model Weights
         </a>
-        <a href="#citation" class="btn btn-accent">
+        <a href="#code-citation" class="btn-pill btn-pill-accent">
           <svg viewBox="0 0 24 24"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
           BibTeX
         </a>
@@ -119,77 +108,50 @@
     </div>
   </section>
 
-  <!-- Research Teaser Section -->
-  <section id="teaser">
+  <!-- Side-by-Side: Abstract & Overview Result (Left & Right Horizontally Aligned) -->
+  <section id="overview">
     <div class="container-wide">
-      <div class="teaser-card">
-        <div class="teaser-figure-container">
-          <img src="images/speaking_paper_result.jpg" alt="SAVIS Audio-Visual Instance Segmentation Teaser Result on Human Speaking Sequence" class="teaser-img zoomable-img">
+      <div class="side-by-side-grid">
+        
+        <!-- Left: Abstract Panel -->
+        <div class="abstract-panel">
+          <div>
+            <h2 class="abstract-panel-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              Abstract
+            </h2>
+            <div class="abstract-body-text">
+              <p>
+                Audio-Visual Instance Segmentation (<strong>AVIS</strong>) requires a deep learning model to find, segment, and track every object instance that is <em>actively producing sound</em> throughout an untrimmed video sequence. On the standard AVISeg benchmark, the silent-frame sub-metric <strong>FSLAn</strong>—the fraction of genuinely silent frames a model leaves correctly unmasked—remains the weakest score across all published methods.
+              </p>
+              <p>
+                We first measure four foundational properties of AVISeg and baseline internals: establishing that residual audio does not linger across sound-to-silence boundaries, that same-category confusion is predominantly a multi-speaker rather than an instrument-ensemble phenomenon, and that sounding versus silent signals are separable at the model's downstream classification embeddings (Cohen's \(d = 0.555\)) rather than within raw attention weights.
+              </p>
+              <p>
+                Guided by these empirical measurements, we introduce <strong>SAVIS</strong> (Sink-Augmented Audio-Visual Instance Segmentation). SAVIS augments the windowed Video-Level Audio-Visual Fusion Module (VL-AVFM) with attention-sink registry tokens alongside channel-spatial attention on multi-scale visual features, causal cross-attention fusion (CCAF), and audio-guided contrastive learning (AGCL). Trained on a single consumer GPU under the ImageNet-only protocol, SAVIS with BEATs improves six of eight benchmark metrics over the CVPR'25 baseline, while our VGGish configuration lifts silent-frame accuracy by 8 points (to 40.28) and achieves the highest overall mAP (41.80).
+              </p>
+            </div>
+          </div>
         </div>
-        <div class="teaser-caption">
-          <strong>Figure 1: Audio-Visual Instance Discrimination Over Time.</strong> A representative multi-speaker conversational scene from the AVISeg benchmark. The top row illustrates the synchronized audio waveform across sampled video frames. The middle row displays the ground-truth annotation (<strong>GT</strong>). The bottom row displays the predicted segmentation by <strong>SAVIS</strong>. Notice that when two people share the visual frame, SAVIS accurately localizes and tracks only the vocalizing speaker over time, correctly leaving the silent conversational partner unmasked.
+
+        <!-- Right: Teaser / Result Preview Panel -->
+        <div class="teaser-panel">
+          <div class="teaser-img-wrap">
+            <img src="images/speaking_paper_result.jpg" alt="SAVIS Audio-Visual Instance Discrimination" class="zoomable-img">
+          </div>
+          <div class="teaser-panel-caption">
+            <strong>Figure 1: Audio-Visual Instance Discrimination Over Time.</strong> Synchronized audio waveform (top), Ground Truth annotations (middle), and SAVIS predicted instance masks (bottom) across sampled video frames. When two people share the frame, SAVIS localizes and tracks only the speaking individual while correctly leaving the silent conversational partner unmasked.
+          </div>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- Abstract Section -->
-  <section id="abstract">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Overview</span>
-        <h2 class="section-title">Abstract</h2>
-      </div>
-
-      <div class="abstract-box">
-        <div class="abstract-text">
-          <p>
-            Audio-Visual Instance Segmentation (<strong>AVIS</strong>) requires a deep learning model to find, segment, and track every object instance that is <em>actively producing sound</em> throughout an untrimmed video sequence. On the standard AVISeg benchmark, the silent-frame sub-metric <strong>FSLAn</strong>—the fraction of genuinely silent frames a model leaves correctly unmasked—remains the weakest score across all published methods, with recent extensions trading it away in exchange for raw detection metrics.
-          </p>
-          <p>
-            We first measure four foundational properties of AVISeg and of a trained baseline's internals: establishing that residual audio does not linger across sound-to-silence boundaries, that same-category confusion is predominantly a multi-speaker rather than an instrument-ensemble phenomenon, and that sounding versus silent signals are separable at the model's downstream classification embeddings (Cohen's \(d = 0.555\)) rather than within raw attention weights.
-          </p>
-          <p>
-            Guided by these empirical measurements, we introduce <strong>SAVIS</strong> (Sink-Augmented Audio-Visual Instance Segmentation). SAVIS augments the windowed Video-Level Audio-Visual Fusion Module (VL-AVFM) with attention-sink registry tokens—realizing a promising open direction named in the literature—alongside channel-spatial attention on multi-scale visual features, causal cross-attention fusion (CCAF), and audio-guided contrastive learning (AGCL). Trained on a single consumer GPU under the ImageNet-only protocol, SAVIS with BEATs improves six of eight benchmark metrics over the CVPR'25 baseline, while our VGGish configuration lifts silent-frame accuracy by 8 points (to 40.28) and achieves the highest overall mAP (41.80).
-          </p>
-        </div>
-      </div>
-
-      <!-- 4 Core Highlights Grid -->
-      <div class="highlights-grid">
-        <div class="highlight-card">
-          <div class="highlight-icon">🔬</div>
-          <h3 class="highlight-title">Measurement-Driven</h3>
-          <p class="highlight-desc">Pre-registered probes quantify scale disparity, sub-frame acoustic decay, multi-speaker dynamics, and embedding separability.</p>
-        </div>
-
-        <div class="highlight-card">
-          <div class="highlight-icon">⚓</div>
-          <h3 class="highlight-title">Attention Sink Tokens</h3>
-          <p class="highlight-desc">Learnable registry tokens appended to temporal windows prevent spurious feature hijacking during silent intervals.</p>
-        </div>
-
-        <div class="highlight-card">
-          <div class="highlight-icon">🔍</div>
-          <h3 class="highlight-title">Channel-Spatial (CBAM)</h3>
-          <p class="highlight-desc">Zero-initialized residual gating on Strides 8, 16, and 32 feature pyramids resolves extreme 2-order-of-magnitude scale variations.</p>
-        </div>
-
-        <div class="highlight-card">
-          <div class="highlight-icon">🔄</div>
-          <h3 class="highlight-title">Causal Contrastive</h3>
-          <p class="highlight-desc">Causal audio history cross-attention paired with instance-level InfoNCE audio contrastive objectives pulls sounding instances to audio anchors.</p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Redesigned Quantitative Benchmark Results (Conference-Paper Quality Tables) -->
+  <!-- Quantitative Benchmark Results Section -->
   <section id="results">
     <div class="container-wide">
       <div class="section-header">
-        <span class="section-tag">Evaluation</span>
         <h2 class="section-title">Quantitative Benchmark Results</h2>
         <p class="section-subtitle">Rigorous evaluation on the AVISeg test benchmark under the standardized ResNet-50 ImageNet-only training protocol.</p>
       </div>
@@ -312,7 +274,7 @@
           </table>
         </div>
         <div class="table-legend-box">
-          <strong>Key Metric Definitions:</strong> <code>FSLA</code>: Frame-Level Sound Localization Accuracy (average across \(\alpha \in [0.05, 0.95]\)). <code>FSLAn</code> / <code>FSLAs</code> / <code>FSLAm</code>: Silent (no-sound), single-source, and multi-source components. <code>HOTA</code> / <code>AssA</code> / <code>DetA</code>: Higher Order Tracking Accuracy, Association Accuracy, and Detection Accuracy. <code>mAP</code>: Video mean Average Precision over spatio-temporal IoU trajectories.
+          <strong>Metric Definitions:</strong> <code>FSLA</code>: Frame-Level Sound Localization Accuracy (average across \(\alpha \in [0.05, 0.95]\)). <code>FSLAn</code> / <code>FSLAs</code> / <code>FSLAm</code>: Silent (no-sound), single-source, and multi-source components. <code>HOTA</code> / <code>AssA</code> / <code>DetA</code>: Higher Order Tracking Accuracy, Association Accuracy, and Detection Accuracy. <code>mAP</code>: Video mean Average Precision over spatio-temporal IoU trajectories.
         </div>
       </div>
 
@@ -405,11 +367,10 @@
     </div>
   </section>
 
-  <!-- Wide, Immersive Qualitative Results Section -->
+  <!-- Wide, Immersive Qualitative Results Showcase -->
   <section id="qualitative">
     <div class="container-ultrawide">
       <div class="section-header">
-        <span class="section-tag">Visual Verification</span>
         <h2 class="section-title">Qualitative Results Showcase</h2>
         <p class="section-subtitle">Evaluating temporal tracking, mask fidelity, and sound-source discrimination across major sound families.</p>
       </div>
@@ -591,116 +552,109 @@
     </div>
   </section>
 
-  <!-- Reproducibility & Code Section -->
-  <section id="reproducibility">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Reproducibility</span>
-        <h2 class="section-title">Installation & Execution</h2>
-        <p class="section-subtitle">Single consumer GPU execution environment (NVIDIA RTX 4080 / Ubuntu 24.04 / CUDA 12.1 / PyTorch 2.1.0).</p>
-      </div>
-
-      <div class="code-container">
-        <div class="code-header">
-          <div class="code-nav">
-            <button class="code-tab-btn active" data-code="code-install">Environment</button>
-            <button class="code-tab-btn" data-code="code-data">Weights & Data</button>
-            <button class="code-tab-btn" data-code="code-train">Training</button>
-            <button class="code-tab-btn" data-code="code-eval">Evaluation</button>
-            <button class="code-tab-btn" data-code="code-demo">Demo Video</button>
+  <!-- Side-by-Side: Installation & Execution (Left) + Citation & References (Right) -->
+  <section id="code-citation">
+    <div class="container-wide">
+      <div class="side-by-side-grid">
+        
+        <!-- Left Column: Installation & Execution -->
+        <div class="code-panel-wrapper">
+          <div class="code-header">
+            <div class="code-nav">
+              <button class="code-tab-btn active" data-code="code-install">Environment</button>
+              <button class="code-tab-btn" data-code="code-data">Weights & Data</button>
+              <button class="code-tab-btn" data-code="code-train">Training</button>
+              <button class="code-tab-btn" data-code="code-eval">Evaluation</button>
+              <button class="code-tab-btn" data-code="code-demo">Demo Video</button>
+            </div>
+            <button class="copy-btn" title="Copy code block">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy
+            </button>
           </div>
-          <button class="copy-btn" title="Copy code block">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Copy
-          </button>
-        </div>
 
-        <!-- 1. Environment -->
-        <pre id="code-install" class="code-block active"><code># 1. Clone the repository
+          <!-- 1. Environment -->
+          <pre id="code-install" class="code-block active"><code># Clone repository
 git clone https://github.com/Sayyam-Akram/savis.git
 cd savis
 
-# 2. Setup Conda environment
+# Setup Conda environment
 conda create --name savis python=3.8 -y
 conda activate savis
 
-# 3. Install PyTorch with CUDA 12.1 support
+# Install PyTorch (CUDA 12.1)
 pip install torch==2.1.0 torchvision==0.16.0 --index-url https://download.pytorch.org/whl/cu121
 
-# 4. Install dependencies & Detectron2
+# Install dependencies & Detectron2
 pip install -U opencv-python ninja
 pip install -r requirements.txt
-
 git clone https://github.com/facebookresearch/detectron2.git
 cd detectron2 && pip install -e . && cd ..
 
-# 5. Compile Deformable Attention CUDA Operators
+# Compile Deformable Attention CUDA Operators
 cd mask2former/modeling/pixel_decoder/ops
-sh make.sh
-cd ../../../../</code></pre>
+sh make.sh && cd ../../../../</code></pre>
 
-        <!-- 2. Weights & Data -->
-        <pre id="code-data" class="code-block"><code># 1. Setup AVISeg Dataset directory
+          <!-- 2. Weights & Data -->
+          <pre id="code-data" class="code-block"><code># Setup AVISeg Dataset directory
 mkdir -p datasets
 # Download and extract AVISeg.zip inside datasets/
 
-# 2. Setup Pretrained Backbones and Weights
+# Setup Pretrained Backbones and Weights
 mkdir -p pre_models checkpoints
-
 # Place BEATs checkpoint in root:
 # -> BEATs_iter3_plus_AS2M.pt
 # Place visual backbone in pre_models/
 # Place trained checkpoint in checkpoints/:
 # -> checkpoints/AVISM_R50_IN.pth</code></pre>
 
-        <!-- 3. Training -->
-        <pre id="code-train" class="code-block"><code># Train SAVIS on a single GPU (RTX 4080 16GB, effective batch size 2 via grad accum)
+          <!-- 3. Training -->
+          <pre id="code-train" class="code-block"><code># Train SAVIS on a single GPU (RTX 4080 16GB)
 python train_net.py \
   --config-file configs/avism/R50/avism_R50_IN.yaml \
   --num-gpus 1</code></pre>
 
-        <!-- 4. Evaluation -->
-        <pre id="code-eval" class="code-block"><code># Evaluate SAVIS checkpoint on AVISeg Test Set
+          <!-- 4. Evaluation -->
+          <pre id="code-eval" class="code-block"><code># Evaluate SAVIS checkpoint on AVISeg Test Set
 python train_net.py \
   --config-file configs/avism/R50/avism_R50_IN.yaml \
   --eval-only \
   MODEL.WEIGHTS checkpoints/AVISM_R50_IN.pth</code></pre>
 
-        <!-- 5. Demo -->
-        <pre id="code-demo" class="code-block"><code># Run visualization demo on input video sequences
+          <!-- 5. Demo -->
+          <pre id="code-demo" class="code-block"><code># Run visualization demo on input video
 python demo_video/demo.py \
   --config-file configs/avism/R50/avism_R50_IN.yaml \
   --opts MODEL.WEIGHTS checkpoints/AVISM_R50_IN.pth \
   --output-dir demo_output/</code></pre>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Citation Section -->
-  <section id="citation">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Reference</span>
-        <h2 class="section-title">Citation</h2>
-      </div>
-
-      <div class="citation-box">
-        <div class="citation-header">
-          <span class="citation-title">BibTeX</span>
-          <button class="copy-btn" data-target="#bibtex-entry" title="Copy BibTeX">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Copy BibTeX
-          </button>
         </div>
-        <pre id="bibtex-entry" class="bibtex-code">@article{akram2026savis,
+
+        <!-- Right Column: Citation & References -->
+        <div class="citation-panel-wrapper">
+          <div>
+            <div class="citation-header">
+              <h3 class="citation-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align: middle; margin-right: 4px;"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
+                BibTeX Citation
+              </h3>
+              <button class="copy-btn" data-target="#bibtex-entry" title="Copy BibTeX">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy BibTeX
+              </button>
+            </div>
+            <pre id="bibtex-entry" class="bibtex-code-compact">@article{akram2026savis,
   title={SAVIS: A Sink-Augmented Baseline for Audio-Visual Instance Segmentation},
   author={Akram, Sayyam and Hamza, Meer and Yousaf, M. Nouman and Akram, Hassan and Ramzan, Umer},
   journal={arXiv preprint arXiv:2603.01431},
   year={2026}
 }</pre>
-      </div>
+          </div>
+          <div class="citation-note">
+            If you find this work or benchmark analysis useful in your research, please consider citing our preprint.
+          </div>
+        </div>
 
+      </div>
     </div>
   </section>
 
@@ -709,7 +663,7 @@ python demo_video/demo.py \
     <div class="container">
       <div class="footer-content">
         <p>
-          <strong>SAVIS: Audio-Visual Instance Segmentation</strong> &mdash; Final Year Research Project (2026)
+          <strong>SAVIS: Audio-Visual Instance Segmentation</strong>
         </p>
         <p style="font-size: 0.825rem; color: var(--text-light); max-width: 600px;">
           Built upon Detectron2, Mask2Former, VITA, and AVISM. Maintained by Sayyam Akram, GIFT University.
