@@ -14,7 +14,7 @@
   <meta property="og:description" content="A deep learning framework for segmenting and tracking sounding objects in video sequences.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://sayyam-akram.github.io/savis/">
-  <meta property="og:image" content="images/architecture.png">
+  <meta property="og:image" content="images/speaking_paper_result.jpg">
 
   <!-- Google Fonts & KaTeX for LaTeX Math -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,7 +40,6 @@
       <nav>
         <ul class="nav-links">
           <li><a href="#abstract">Abstract</a></li>
-          <li><a href="#method">Architecture</a></li>
           <li><a href="#results">Benchmark</a></li>
           <li><a href="#qualitative">Qualitative</a></li>
           <li><a href="#reproducibility">Code</a></li>
@@ -181,84 +180,6 @@
           <h3 class="highlight-title">Causal Contrastive</h3>
           <p class="highlight-desc">Causal audio history cross-attention paired with instance-level InfoNCE audio contrastive objectives pulls sounding instances to audio anchors.</p>
         </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Redesigned Method & Architecture Section (Fixed Full-Width Non-Scrollable Figure) -->
-  <section id="method">
-    <div class="container-wide">
-      <div class="section-header">
-        <span class="section-tag">Architecture</span>
-        <h2 class="section-title">Method & Model Architecture</h2>
-        <p class="section-subtitle">A two-stage set-prediction framework augmented with multi-scale visual refinement, causal cross-attention, and sink-augmented video fusion.</p>
-      </div>
-
-      <!-- Architecture Figure Container -->
-      <div class="arch-card">
-        <div class="arch-figure-box">
-          <img src="images/architecture.png" alt="SAVIS Complete Model Architecture Diagram" class="arch-figure-img zoomable-img">
-          <div class="arch-zoom-badge">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-            Click to Expand Fullscreen
-          </div>
-        </div>
-        <div class="arch-caption-box">
-          <strong>Figure 2: Complete SAVIS System Architecture.</strong> 
-          <strong>(a) Frame-Level Stage:</strong> ResNet-50 visual backbone and a pixel decoder encode each frame into multi-scale visual features \(\{f^{V,\ell}_t\}_{\ell=1}^3\), refined via CBAM. Causal Cross-Attention Fusion (CCAF) fuses the visual features with the frozen audio embeddings (\(a_t\)) to condition \(N_f = 100\) frame queries, which a transformer decoder decodes into frame-level candidate masks and classes.
-          <strong>(b) Video-Level Stage:</strong> An object encoder aggregates frame queries into \(N_v = 100\) object tokens. Our <em>Sink-Augmented VL-AVFM</em> (green) associates tokens across temporal windows using \(R = 4\) always-reachable registry tokens appended to key/value streams. Finally, an object decoder emits the spatiotemporal masks \(\hat{m}\) and instance classification logits \(\hat{c}\).
-        </div>
-      </div>
-
-      <!-- Technical Breakdown Cards -->
-      <div class="arch-components-grid">
-        
-        <div class="arch-comp-card">
-          <div>
-            <div class="arch-comp-header">
-              <span class="arch-comp-badge">Module 1</span>
-              <h3 class="arch-comp-title">Multi-Scale CBAM Refinement</h3>
-            </div>
-            <p class="arch-comp-body">
-              To address the dramatic instance area variance (spanning 4.6k px for flutes up to >110k px for humans), we refine pixel decoder multi-scale features with channel and spatial attention under a zero-initialized residual gate:
-            </p>
-          </div>
-          <div class="math-eq-box">
-            $$\tilde{f}^{V,\ell}_t = f^{V,\ell}_t + \alpha_\ell \cdot \mathrm{CBAM}(f^{V,\ell}_t), \quad \alpha_\ell \leftarrow 0$$
-          </div>
-        </div>
-
-        <div class="arch-comp-card">
-          <div>
-            <div class="arch-comp-header">
-              <span class="arch-comp-badge">Module 2</span>
-              <h3 class="arch-comp-title">Causal Cross-Attention (CCAF)</h3>
-            </div>
-            <p class="arch-comp-body">
-              Rather than isolated single-frame fusion, visual features at time \(t\) cross-attend over the causal audio history up to frame \(t\) under a strict temporal causal mask \(M\):
-            </p>
-          </div>
-          <div class="math-eq-box">
-            $$\mathrm{Attn}(Q,K,V) = \mathrm{softmax}\left(\frac{QK^\top}{\sqrt{d_k}} + M\right)V$$
-          </div>
-        </div>
-
-        <div class="arch-comp-card">
-          <div>
-            <div class="arch-comp-header">
-              <span class="arch-comp-badge">Module 3</span>
-              <h3 class="arch-comp-title">Attention-Sink Registry Tokens</h3>
-            </div>
-            <p class="arch-comp-body">
-              AVISM partitions temporal self-attention into fixed and shifted windows. We append \(R = 4\) learnable registry tokens to the key/value inputs of <em>both</em> passes:
-            </p>
-          </div>
-          <div class="math-eq-box">
-            $$K_{\text{sink}} = [K \,\|\, r_1,\dots,r_R], \quad V_{\text{sink}} = [V \,\|\, r_1,\dots,r_R]$$
-          </div>
-        </div>
-
       </div>
 
     </div>
