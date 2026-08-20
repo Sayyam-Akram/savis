@@ -133,14 +133,17 @@
         </h2>
         <div class="abstract-text">
           <p>
-            Audio-Visual Instance Segmentation (<strong>AVIS</strong>) requires a deep learning model to find, segment, and track every object instance that is <em>actively producing sound</em> throughout an untrimmed video sequence. On the standard AVISeg benchmark, the silent-frame sub-metric <strong>FSLAn</strong>—the fraction of genuinely silent frames a model leaves correctly unmasked—remains the weakest score across all published methods, with recent extensions trading it away in exchange for raw detection metrics.
+            Audio-Visual Instance Segmentation (<strong>AVIS</strong>) requires a model to find, segment, and track every object that is actually producing sound. We begin by measuring four properties of the AVISeg benchmark and of a trained model’s internals, and let them narrow the design space.
           </p>
           <p>
-            We first measure four foundational properties of AVISeg and baseline internals: establishing that residual audio does not linger across sound-to-silence boundaries, that same-category confusion is predominantly a multi-speaker rather than an instrument-ensemble phenomenon, and that sounding versus silent signals are separable at the model's downstream classification embeddings (Cohen's \(d = 0.555\)) rather than within raw attention weights.
+            Two close directions off: the sound-to-silence transition proves sharp rather than gradual, so temporal smoothing of the audio stream is unwarranted; and the sounding/silent distinction is absent from a trained model’s attention weights while clearly present at its downstream classification embedding (Cohen’s \(d = 0.555\)), so a silence mechanism reading from attention cannot succeed. Two shape the architecture: sounding-object scale spans nearly two orders of magnitude across the benchmark’s categories, motivating multi-scale channel–spatial refinement; and same-category instances almost never desynchronize among instruments yet frequently do among people and animals, redirecting effort from same-class separation toward long-range association.
           </p>
           <p>
-            Guided by these empirical measurements, we introduce <strong>SAVIS</strong> (Sink-Augmented Audio-Visual Instance Segmentation). SAVIS augments the windowed Video-Level Audio-Visual Fusion Module (VL-AVFM) with attention-sink registry tokens alongside channel-spatial attention on multi-scale visual features, causal cross-attention fusion (CCAF), and audio-guided contrastive learning (AGCL). Trained on a single consumer GPU under the ImageNet-only protocol, SAVIS with BEATs improves six of eight benchmark metrics over the CVPR'25 baseline, while our VGGish configuration lifts silent-frame accuracy by 8 points (to 40.28) and achieves the highest overall mAP (41.80).
+            The resulting model, <strong>SAVIS</strong>, augments a windowed video-level fusion module with attention-sink registry tokens, alongside that multi-scale refinement block, causal audio-visual fusion, and audio-guided contrastive learning. Its strongest results fall on precisely the multi-source localization, detection, and association axes those two measurements identify. A controlled audio-encoder ablation then exposes a consistent trade-off between silent-frame accuracy and overall detection, and the attention-separability result explains why that gap resists mechanisms operating on attention.
           </p>
+        </div>
+        <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-light); font-size: 0.885rem; color: var(--text-muted); line-height: 1.6;">
+          <strong style="color: var(--text-heading);">Index Terms &mdash;</strong> audio-visual instance segmentation, sound source localization, attention sinks, audio-visual fusion, video instance segmentation
         </div>
       </div>
     </div>
