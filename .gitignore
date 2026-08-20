@@ -54,9 +54,16 @@ mask2former/modeling/pixel_decoder/ops/MultiScaleDeformableAttention.egg-info/
 # Webapp configurations and builds
 webapp/frontend/node_modules/
 webapp/frontend/dist/
+webapp/frontend/.env
+webapp/frontend/.env*.local
 webapp/backend/users.db
 webapp/backend/.env
 webapp/backend/outputs/
+.env
+.env.local
+.env.*.local
+!.env.example
+
 
 # Internal research and development notes
 changes_done.md
