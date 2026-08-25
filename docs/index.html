@@ -72,14 +72,16 @@
       </p>
 
       <!-- Compact Horizontal Authors & Affiliation -->
-      <div class="hero-meta-horizontal">
-        <span class="author-lead">Sayyam Akram<sup>1</sup></span>
+      <div class="hero-authors-clean">
+        <span class="author-name lead-author">Sayyam Akram<sup>1</sup></span>
         <span class="author-name">Meer Hamza<sup>1</sup></span>
         <span class="author-name">M. Nouman Yousaf<sup>1</sup></span>
         <span class="author-name">Hassan Akram<sup>1</sup></span>
         <span class="author-name">Umer Ramzan<sup>1,*</sup></span>
-        <span style="color: var(--border-medium);">|</span>
-        <span class="affiliation-tag">Department of Computer Science, GIFT University, Pakistan</span>
+      </div>
+
+      <div class="hero-affiliation-clean">
+        <sup>1</sup>Department of Computer Science, GIFT University, Pakistan &nbsp;·&nbsp; <sup>*</sup>Corresponding Author: <code>umer.ramzan@gift.edu.pk</code>
       </div>
 
       <!-- Action Buttons -->
@@ -117,7 +119,7 @@
           <img src="images/speaking_paper_result.jpg" alt="SAVIS Audio-Visual Instance Segmentation Teaser" class="teaser-img zoomable-img">
         </div>
         <div class="teaser-caption">
-          <strong>Figure 1: Audio-Visual Instance Discrimination Over Time.</strong> A representative multi-speaker conversational scene from the AVISeg benchmark. The top row illustrates the synchronized audio waveform across sampled video frames. The middle row displays the ground-truth annotation (<strong>GT</strong>). The bottom row displays the predicted segmentation by <strong>SAVIS</strong>. Notice that when two people share the visual frame, SAVIS accurately localizes and tracks only the vocalizing speaker over time, correctly leaving the silent conversational partner unmasked.
+          <strong>Figure 1: Audio-Visual Instance Discrimination Over Time.</strong> Synchronized audio waveform (top), Ground Truth (middle), and SAVIS prediction (bottom). When multiple individuals share the scene, SAVIS selectively localizes and tracks only the vocalizing speaker over time while keeping silent individuals unmasked.
         </div>
       </div>
     </div>
@@ -391,27 +393,18 @@
           <div class="qual-figure-frame">
             <img src="images/speaking_paper_result.jpg" alt="Speaking Category Qualitative Comparison" class="zoomable-img">
           </div>
-          <div class="qual-meta-banner">
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                Scene Configuration
-              </div>
-              <div class="qual-meta-text">Outdoor conversational scene with two individuals; only the speaker on the left vocalizes across the sequence.</div>
+          <div class="qual-meta-banner-compact">
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge">📍 Scene Context</span>
+              <span class="qual-meta-desc">Conversational setting where only the left speaker actively vocalizes.</span>
             </div>
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                Ground Truth (GT)
-              </div>
-              <div class="qual-meta-text">Exhaustively masks the active speaker; correctly leaves the silent conversational partner unmasked.</div>
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge">🎯 Ground Truth</span>
+              <span class="qual-meta-desc">Exhaustively annotates the vocalizing speaker; leaves silent partner unmasked.</span>
             </div>
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                SAVIS Prediction
-              </div>
-              <div class="qual-meta-text">Precisely binds acoustic features to the speaking instance, avoiding false-positive masks on silent bystanders.</div>
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge">✨ SAVIS Result</span>
+              <span class="qual-meta-desc">Precisely binds acoustic features to the speaker without false positives.</span>
             </div>
           </div>
         </div>
@@ -421,27 +414,18 @@
           <div class="qual-figure-frame">
             <img src="images/music_paper_result.jpg" alt="Music Category Qualitative Comparison" class="zoomable-img">
           </div>
-          <div class="qual-meta-banner">
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                Scene Configuration
-              </div>
-              <div class="qual-meta-text">Live instrumental performance featuring simultaneous accordion and ukulele performers in close proximity.</div>
+          <div class="qual-meta-banner-compact">
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge">📍 Scene Context</span>
+              <span class="qual-meta-desc">Simultaneous live performance of accordion and ukulele in close proximity.</span>
             </div>
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                Temporal Dynamics
-              </div>
-              <div class="qual-meta-text">Continuous acoustic harmonic signals with rapid hand articulations and instrument deformations.</div>
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge">⚡ Core Challenge</span>
+              <span class="qual-meta-desc">Harmonic acoustic signals with continuous rapid instrument articulations.</span>
             </div>
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                SAVIS Prediction
-              </div>
-              <div class="qual-meta-text">Delivers sharp instance boundary separation for both instruments with zero identity switches over time.</div>
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge">✨ SAVIS Result</span>
+              <span class="qual-meta-desc">Sharp instance boundary separation with zero identity switches over time.</span>
             </div>
           </div>
         </div>
@@ -451,18 +435,18 @@
           <div class="qual-figure-frame">
             <img src="images/machine_paper_result.jpg" alt="Machine Category Qualitative Comparison" class="zoomable-img">
           </div>
-          <div class="qual-meta-banner">
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">Scene Configuration</div>
-              <div class="qual-meta-text">Airplane moving at high velocity with continuous engine acoustic signature.</div>
+          <div class="qual-meta-banner-compact">
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge">📍 Scene Context</span>
+              <span class="qual-meta-desc">High-speed airplane trajectory with continuous engine sound signature.</span>
             </div>
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">Temporal Dynamics</div>
-              <div class="qual-meta-text">Rapid camera pan and translation across sky background.</div>
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge">⚡ Core Challenge</span>
+              <span class="qual-meta-desc">Fast camera panning and rapid translational scale changes across open sky.</span>
             </div>
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">SAVIS Prediction</div>
-              <div class="qual-meta-text">Strong spatio-temporal mask continuity throughout the rapid translational trajectory.</div>
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge">✨ SAVIS Result</span>
+              <span class="qual-meta-desc">Robust spatiotemporal mask continuity throughout the translational trajectory.</span>
             </div>
           </div>
         </div>
@@ -472,18 +456,18 @@
           <div class="qual-figure-frame">
             <img src="images/animal_paper_result.jpg" alt="Animal Category Qualitative Comparison" class="zoomable-img">
           </div>
-          <div class="qual-meta-banner">
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">Scene Configuration</div>
-              <div class="qual-meta-text">Dynamic domestic animal scenario with transient barking vocalizations.</div>
+          <div class="qual-meta-banner-compact">
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge">📍 Scene Context</span>
+              <span class="qual-meta-desc">Domestic animal scenario featuring dynamic, transient barking vocalizations.</span>
             </div>
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">Acoustic Coupling</div>
-              <div class="qual-meta-text">Short-burst vocalization aligned with rapid body posture shifts.</div>
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge">⚡ Core Challenge</span>
+              <span class="qual-meta-desc">Short acoustic bursts aligned with abrupt, non-rigid body posture shifts.</span>
             </div>
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">SAVIS Prediction</div>
-              <div class="qual-meta-text">Accurately localizes the sounding dog instance while isolating background noise.</div>
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge">✨ SAVIS Result</span>
+              <span class="qual-meta-desc">Accurately localizes the sounding dog instance while isolating ambient background noise.</span>
             </div>
           </div>
         </div>
@@ -516,18 +500,18 @@
 
           </div>
 
-          <div class="qual-meta-banner">
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">Observation</div>
-              <div class="qual-meta-text">In visually ambiguous or heavily occluded scenes, queries with weak visual boundaries may bleed into adjacent background regions.</div>
+          <div class="qual-meta-banner-compact">
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge" style="color: var(--accent-rose);">⚠️ Observation</span>
+              <span class="qual-meta-desc">Weak visual boundaries under occlusion can cause mask bleeding into background clutter.</span>
             </div>
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">Underlying Factor</div>
-              <div class="qual-meta-text">High-capacity audio encoders (such as BEATs) maximize detection recall but exhibit heightened sensitivity to ambient background acoustic cues.</div>
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge" style="color: var(--accent-rose);">🔍 Root Factor</span>
+              <span class="qual-meta-desc">High-capacity encoders exhibit elevated sensitivity to ambient background acoustic cues.</span>
             </div>
-            <div class="qual-meta-card">
-              <div class="qual-meta-title">Future Remedy</div>
-              <div class="qual-meta-text">A supervised classification calibration head reading from downstream embeddings rather than attention weights.</div>
+            <div class="qual-meta-box">
+              <span class="qual-meta-badge" style="color: var(--accent-emerald);">💡 Future Remedy</span>
+              <span class="qual-meta-desc">Supervised classification calibration reading directly from downstream embeddings.</span>
             </div>
           </div>
         </div>
